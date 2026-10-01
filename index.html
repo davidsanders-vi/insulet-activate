@@ -49,8 +49,8 @@
 const DOC = /*__DOC_START__*/{
   "meta": {
     "id": "INS-POC-2026-001",
-    "rev": "v1.8",
-    "prevRev": "v1.7",
+    "rev": "v1.9",
+    "prevRev": "v1.8",
     "revDate": "2026-10-01",
     "status": "",
     "health": "ON TRACK",
@@ -64,10 +64,8 @@ const DOC = /*__DOC_START__*/{
     "nextTouchpoint": "weekly 20-min check-in through go-live",
     "confidentiality": "Confidential — prepared by Vi for the Insulet × Wheelhouse × Vi working team. Not for distribution beyond the partnership.",
     "delta": [
-      "Masthead simplified to a 'last edited' date — doc ID, rev and DRAFT chip no longer shown (rev still tracked in the change log).",
-      "Success bar (≥10%) and the decision row removed — neither has been put to Insulet directly. Hypothesis and primary read now say 'lower (e)CPNCS than Control'.",
-      "How we'll know rows are plain text now (no shared-fact tokens) so they can be edited in place; 23% benchmark dropped.",
-      "Audience stat relabeled 'Audience size'. 'Decision in N days' dropped from the launch calculator. Refresh row no longer TO CONFIRM."
+      "Reporting-requirements wording updated (adds Salesforce to the feed ask).",
+      "Measurement and Tracking & campaign setup merged into one checklist phase: Measurement & tracking."
     ]
   },
   "facts": {
@@ -187,16 +185,14 @@ const DOC = /*__DOC_START__*/{
     "cadence": "updated at the weekly 20-min check-in through go-live",
     "phases": [
       "Plan & test design",
-      "Measurement",
+      "Measurement & tracking",
       "Audience",
-      "Tracking & campaign setup",
       "In-flight & readout"
     ],
     "launchPhases": [
       0,
       1,
-      2,
-      3
+      2
     ],
     "items": [
       {
@@ -262,7 +258,7 @@ const DOC = /*__DOC_START__*/{
         "target": "Oct 9",
         "status": "OPEN",
         "detail": [
-          "View access or a daily log-level feed from each deployment platform, split Test vs. Control at the ad-set level: delivery and spend, pixel / API conversions (form start, form submit), audience match rates, geo / demo / placement breakdowns",
+          "View access or a daily log-level feed from each deployment platform and SF, split Test vs. Control at the ad-set level: delivery and spend, pixel / API conversions (form start, form submit), audience match rates, geo / demo / placement breakdowns",
           "Web analytics (platform TBC — Insulet's GA4 / Adobe vs. pixel data): sessions, engagement and Get Started HVAs by UTM, Test vs. Control",
           "Agree the HVA event list: form start, form submit, and whether the three CTA clicks (Get Started, 30-day trial, starter kit) count"
         ]
@@ -299,7 +295,7 @@ const DOC = /*__DOC_START__*/{
         ]
       },
       {
-        "phase": 3,
+        "phase": 1,
         "what": "Finalize UTM convention and confirm it lands in Salesforce",
         "owner": "WH",
         "due": "2026-10-13",
@@ -310,7 +306,7 @@ const DOC = /*__DOC_START__*/{
         ]
       },
       {
-        "phase": 3,
+        "phase": 1,
         "what": "Set up Vi ad sets and reporting access",
         "owner": "WH",
         "due": "2026-10-13",
@@ -321,7 +317,7 @@ const DOC = /*__DOC_START__*/{
         ]
       },
       {
-        "phase": 4,
+        "phase": 3,
         "what": "Launch media in both groups",
         "owner": "WH",
         "due": "2026-10-14",
@@ -332,7 +328,7 @@ const DOC = /*__DOC_START__*/{
         ]
       },
       {
-        "phase": 4,
+        "phase": 3,
         "what": "Run first performance read",
         "owner": "WH + VI",
         "due": "2026-11-16",
@@ -343,7 +339,7 @@ const DOC = /*__DOC_START__*/{
         ]
       },
       {
-        "phase": 4,
+        "phase": 3,
         "what": "Close media and pull final data",
         "owner": "WH + VI",
         "due": "2027-01-14",
@@ -354,7 +350,7 @@ const DOC = /*__DOC_START__*/{
         ]
       },
       {
-        "phase": 4,
+        "phase": 3,
         "what": "Deliver POC readout and scale recommendation",
         "owner": "VI",
         "due": "2027-02-05",
@@ -1058,6 +1054,12 @@ const DOC = /*__DOC_START__*/{
       "date": "2026-10-01",
       "who": "Vi · David Sanders",
       "what": "v1.8 — masthead to 'last edited'; ≥10% bar and decision row removed; How-we'll-know rows editable; audience stat = size; refresh TO CONFIRM off; 'decision in N days' dropped",
+      "edits": []
+    },
+    {
+      "date": "2026-10-01",
+      "who": "Vi · David Sanders",
+      "what": "v1.9 — reporting-requirements wording (adds SF); Measurement and Tracking & campaign setup merged into one phase",
       "edits": []
     }
   ]
