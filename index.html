@@ -1,0 +1,2098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INS-POC-2026 · Partnership Living Doc · Insulet Omnipod × Wheelhouse × Vi</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+/* ============================================================
+   DOC — the single source of truth for this document.
+
+   HOW TO UPDATE (v2 model)
+   1. In the browser — the normal path.
+      Always live, no edit mode needed:
+      · Checklist box: click to mark DONE (click again to reopen).
+      · Status label: click to cycle OPEN → IN PROGRESS → BLOCKED → DONE.
+      · Priority box: click to tick.
+      · Health pill (On track / At risk / Off track): click to cycle.
+      Click EDIT (top right) for text:
+      · Outlined text: click and type.
+      · Shared facts: the table under the summary — change a
+        number there and every {{token}} on the page updates.
+      · Priorities: add or remove lines.
+      Then click SAVE REV (it appears as soon as anything changed). It asks who you are and what changed
+      (pre-filled from your edits), bumps meta.rev, writes the
+      change log entry with the field-level diff, and downloads
+      the new file. Replace the deployed file with it.
+      Unsaved edits are kept in this browser until you save or
+      discard them — closing the tab does not lose them.
+   2. In this file — for structure (new rows, new sections).
+      Edit between DOC_START and DOC_END. Bump meta.rev and add
+      a changelog entry by hand.
+
+   Rev ritual: one rev per check-in, minimum (weekly through go-live, then at each performance read).
+   Shared facts (bar, counts, budget, geos) live once in
+   DOC.facts and flow into strings via {{token}}.
+
+   CHECKLIST (checklist.items): one outcome-level line per item —
+   what, one or two detail bullets, owner, ISO due date, short
+   target label, phase index (into checklist.phases) and a status
+   (OPEN / IN PROGRESS / BLOCKED / DONE). Anything not DONE and
+   past its due date flags PAST TARGET and auto-populates Risks.
+   Owners: INSULET / WH / VI, joined with " + ".
+
+   LAUNCH (launch): the calculator on Home counts days from
+   launch.start to launch.target and % DONE of the items whose
+   phase is in checklist.launchPhases (in-flight items excluded).
+   ============================================================ */
+const DOC = /*__DOC_START__*/{
+  "meta": {
+    "id": "INS-POC-2026-001",
+    "rev": "v1.8",
+    "prevRev": "v1.7",
+    "revDate": "2026-10-01",
+    "status": "",
+    "health": "ON TRACK",
+    "title": "Omnipod Vi Activate POC",
+    "subtitle": "Partnership Dashboard",
+    "parties": [
+      "Insulet Omnipod",
+      "Wheelhouse",
+      "Vi"
+    ],
+    "nextTouchpoint": "weekly 20-min check-in through go-live",
+    "confidentiality": "Confidential — prepared by Vi for the Insulet × Wheelhouse × Vi working team. Not for distribution beyond the partnership.",
+    "delta": [
+      "Masthead simplified to a 'last edited' date — doc ID, rev and DRAFT chip no longer shown (rev still tracked in the change log).",
+      "Success bar (≥10%) and the decision row removed — neither has been put to Insulet directly. Hypothesis and primary read now say 'lower (e)CPNCS than Control'.",
+      "How we'll know rows are plain text now (no shared-fact tokens) so they can be edited in place; 23% benchmark dropped.",
+      "Audience stat relabeled 'Audience size'. 'Decision in N days' dropped from the launch calculator. Refresh row no longer TO CONFIRM."
+    ]
+  },
+  "facts": {
+    "viMedia": "$300K",
+    "controlMedia": "$4M",
+    "audience": "TBD",
+    "mediaLive": "Oct 14"
+  },
+  "home": {
+    "what": "Insulet, Wheelhouse and Vi are testing whether a Vi Type 1 audience brings in new Omnipod customers at a lower cost per start than Wheelhouse's business-as-usual third-party audiences. Same creative, same bidding and pacing, same landing page, same Get Started events — only the audience differs."
+  },
+  "summary": {
+    "stats": [
+      {
+        "big": "{{viMedia}}",
+        "label": "VI TEST MEDIA",
+        "sub": "$200K Meta + $100K TikTok · fixed · one Vi ad set per platform"
+      },
+      {
+        "big": "{{controlMedia}}",
+        "label": "WHEELHOUSE CONTROL",
+        "sub": "$3M Meta + $1M TikTok · BAU third-party audiences · may flex"
+      },
+      {
+        "big": "{{mediaLive}}",
+        "label": "MEDIA LIVE",
+        "sub": "week of Oct 12 · 3 months · Meta and TikTok"
+      },
+      {
+        "big": "{{audience}}",
+        "label": "AUDIENCE SIZE",
+        "sub": "Type 1 · count lands with the build ~Oct 9 · refreshed monthly"
+      }
+    ],
+    "groups": [
+      {
+        "title": "The test",
+        "rows": [
+          {
+            "k": "Design",
+            "v": "National A/B · Vi Type 1 audience vs. Wheelhouse BAU third-party · Vi IDs excluded from control"
+          },
+          {
+            "k": "Channels",
+            "v": "Meta and TikTok, each its own test · Vi in one ad set per platform inside the matched campaign"
+          },
+          {
+            "k": "Delivery",
+            "v": "Vi → LiveRamp → Wheelhouse's Meta and TikTok accounts"
+          },
+          {
+            "k": "Constant",
+            "v": "Creative rotation, bid strategy, pacing, frequency caps, lead-gen objective, Get Started events"
+          },
+          {
+            "k": "Live",
+            "v": "3 months · ~Oct 14 → mid-Jan"
+          }
+        ]
+      },
+      {
+        "title": "How we'll know",
+        "rows": [
+          {
+            "k": "Primary",
+            "v": "(e)CPNCS vs. Control on Insulet's (e)NCS model "
+          },
+          {
+            "k": "In-flight",
+            "v": "Get Started form starts and submits, other HVAs"
+          },
+          {
+            "k": "Supporting",
+            "v": "Landing-page views vs. clicks, CTR, form conversion rate, video view rate"
+          },
+          {
+            "k": "Lagging",
+            "v": "Confirmed new customer starts, rolling 90-day read · lead-to-start rate"
+          }
+        ]
+      }
+    ]
+  },
+  "launch": {
+    "label": "Media live — Vi audience in market on Meta and TikTok, tracking and reporting confirmed",
+    "start": "2026-09-25",
+    "target": "2026-10-14",
+    "targetLabel": "media live · week of Oct 12",
+    "note": "Target from the kickoff timeline (Oct 14). Wheelhouse confirms the date once the audience lands via LiveRamp (~Oct 9). Weekly 20-minute check-in until then."
+  },
+  "priorities": {
+    "label": "Priorities this week",
+    "items": [
+      {
+        "text": "Clarify available inputs from Insulet and advance the Type 1 audience build",
+        "who": "VI",
+        "done": false
+      },
+      {
+        "text": "Get LiveRamp destination IDs from Wheelhouse by Friday so the audience can load the day it's ready",
+        "who": "WH",
+        "done": false
+      },
+      {
+        "text": "Lock the ad-set-level UTM convention with a Vi identifier and confirm Salesforce stores it on the lead",
+        "who": "WH + INSULET",
+        "done": false
+      },
+      {
+        "text": "Move the five IN REVIEW test parameters and pixel & tracking to LOCKED",
+        "who": "INSULET + WH + VI",
+        "done": false
+      }
+    ]
+  },
+  "checklist": {
+    "cadence": "updated at the weekly 20-min check-in through go-live",
+    "phases": [
+      "Plan & test design",
+      "Measurement",
+      "Audience",
+      "Tracking & campaign setup",
+      "In-flight & readout"
+    ],
+    "launchPhases": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "items": [
+      {
+        "phase": 0,
+        "what": "Confirm POC objectives and success metric",
+        "owner": "INSULET + VI",
+        "due": "2026-09-25",
+        "target": "Sept 25",
+        "status": "DONE",
+        "detail": [
+          "Type 1 on MDI primary, switchers secondary · (e)CPNCS vs. control on Insulet's (e)NCS model"
+        ]
+      },
+      {
+        "phase": 0,
+        "what": "Confirm test structure and budget split",
+        "owner": "WH + VI",
+        "due": "2026-09-25",
+        "target": "Sept 25",
+        "status": "DONE",
+        "detail": [
+          "$200K Meta / $100K TikTok, one Vi ad set per platform · Vi IDs excluded from control · control may flex, Vi fixed"
+        ]
+      },
+      {
+        "phase": 0,
+        "what": "Set media start date",
+        "owner": "WH",
+        "due": "2026-09-25",
+        "target": "Sept 25",
+        "status": "DONE",
+        "detail": [
+          "Week of Oct 12 "
+        ]
+      },
+      {
+        "phase": 0,
+        "what": "Lock remaining test parameters",
+        "owner": "WH",
+        "due": "2026-10-07",
+        "target": "Oct 7",
+        "status": "DONE",
+        "detail": [
+          "Test design  ·  National, suppression, channels, & channel split already locked"
+        ]
+      },
+      {
+        "phase": 1,
+        "what": "Confirm measurement framework",
+        "owner": "INSULET + VI",
+        "due": "2026-09-25",
+        "target": "Sept 25",
+        "status": "DONE",
+        "detail": [
+          "(e)CPNCS + (e)NCS primary · HVAs secondary · confirmed NCS lagging, rolling 90 days · Salesforce is the system of record"
+        ]
+      },
+      {
+        "phase": 1,
+        "what": "Confirm reporting requirements",
+        "owner": "WH",
+        "due": "2026-10-09",
+        "target": "Oct 9",
+        "status": "OPEN",
+        "detail": [
+          "View access or a daily log-level feed from each deployment platform, split Test vs. Control at the ad-set level: delivery and spend, pixel / API conversions (form start, form submit), audience match rates, geo / demo / placement breakdowns",
+          "Web analytics (platform TBC — Insulet's GA4 / Adobe vs. pixel data): sessions, engagement and Get Started HVAs by UTM, Test vs. Control",
+          "Agree the HVA event list: form start, form submit, and whether the three CTA clicks (Get Started, 30-day trial, starter kit) count"
+        ]
+      },
+      {
+        "phase": 2,
+        "what": "Send LiveRamp destination IDs",
+        "owner": "WH",
+        "due": "2026-10-02",
+        "target": "Fri Oct 2",
+        "status": "OPEN",
+        "detail": [
+          "Meta and TikTok destination IDs for Wheelhouse's accounts · needed before the audience can be pushed on ~Oct 9"
+        ]
+      },
+      {
+        "phase": 2,
+        "what": "Build Type 1 audience for LiveRamp",
+        "owner": "VI",
+        "due": "2026-10-09",
+        "target": "~Oct 9",
+        "status": "IN PROGRESS",
+        "detail": []
+      },
+      {
+        "phase": 2,
+        "what": "Load audience into Wheelhouse's Meta and TikTok accounts",
+        "owner": "VI",
+        "due": "2026-10-09",
+        "target": "~Oct 9",
+        "status": "IN PROGRESS",
+        "detail": [
+          "Via LiveRamp once the audience is built and the destination IDs are in hand"
+        ]
+      },
+      {
+        "phase": 3,
+        "what": "Finalize UTM convention and confirm it lands in Salesforce",
+        "owner": "WH",
+        "due": "2026-10-13",
+        "target": "before go-live",
+        "status": "IN PROGRESS",
+        "detail": [
+          "Ad-set-level UTMs with a Vi identifier on Meta and TikTok · Salesforce stores it on the lead · attribution basis UTM last-click · pixel events live"
+        ]
+      },
+      {
+        "phase": 3,
+        "what": "Set up Vi ad sets and reporting access",
+        "owner": "WH",
+        "due": "2026-10-13",
+        "target": "before go-live",
+        "status": "IN PROGRESS",
+        "detail": [
+          "Own ad set per platform, exclusions applied · ad-set-level reporting via automated email, ~1-day lag · Meta view access for Vi optional"
+        ]
+      },
+      {
+        "phase": 4,
+        "what": "Launch media in both groups",
+        "owner": "WH",
+        "due": "2026-10-14",
+        "target": "Oct 14",
+        "status": "OPEN",
+        "detail": [
+          "Same creative, bid strategy, pacing and frequency caps · weekly creative refreshes mirrored"
+        ]
+      },
+      {
+        "phase": 4,
+        "what": "Run first performance read",
+        "owner": "WH + VI",
+        "due": "2026-11-16",
+        "target": "mid-Nov",
+        "status": "OPEN",
+        "detail": [
+          "(e)CPNCS Test vs. Control and HVAs by ad set · second read mid-Dec"
+        ]
+      },
+      {
+        "phase": 4,
+        "what": "Close media and pull final data",
+        "owner": "WH + VI",
+        "due": "2027-01-14",
+        "target": "mid-Jan",
+        "status": "OPEN",
+        "detail": [
+          "Vi spend closes at $300K · control flex reconciled in cost per start"
+        ]
+      },
+      {
+        "phase": 4,
+        "what": "Deliver POC readout and scale recommendation",
+        "owner": "VI",
+        "due": "2027-02-05",
+        "target": "early Feb",
+        "status": "OPEN",
+        "detail": [
+          "(e)CPNCS vs. Control on the full flight · confirmed NCS on a rolling 90-day read"
+        ]
+      }
+    ]
+  },
+  "status": {
+    "risks": []
+  },
+  "partnership": {
+    "who": [
+      {
+        "org": "Insulet Omnipod",
+        "role": "Brand — sets the POC objectives, owns paid media with Wheelhouse, owns the (e)NCS model and the Salesforce data",
+        "contact": "Lucas Escobar (US consumer marketing lead) · Ariel Rapoport (day-to-day · paid media) · Mark Frechette (Insights & Analytics · (e)NCS read)"
+      },
+      {
+        "org": "Wheelhouse",
+        "role": "Agency of record — runs Meta and TikTok in-platform in both groups; loads the Vi audience, owns UTMs, pixel events and the reporting feed",
+        "contact": "Aimee Taublieb (Account Director) · Laura Crooks (audience activation · reporting) · Emily Herrington (Meta + TikTok) · Cass (campaign setup)"
+      },
+      {
+        "org": "Vi",
+        "role": "Audiences & performance reads — Type 1 audience via LiveRamp, monthly refresh, reads mid-Nov · mid-Dec · early Feb",
+        "contact": "David Sanders (day-to-day) · Alyssa Dubiel (activation · Wheelhouse counterpart) · Chelsea Pincus (audience build & delivery) · Bobby Doyle (AM) · Chris Bergstrom (exec sponsor)"
+      }
+    ],
+    "timeline": {
+      "start": "2026-09-01",
+      "end": "2027-02-28",
+      "months": [
+        "SEP",
+        "OCT",
+        "NOV",
+        "DEC",
+        "JAN",
+        "FEB"
+      ],
+      "milestones": [
+        {
+          "d": "2026-09-25",
+          "label": "Kickoff"
+        },
+        {
+          "d": "2026-10-14",
+          "label": "Media live"
+        },
+        {
+          "d": "2026-11-16",
+          "label": "Performance read"
+        },
+        {
+          "d": "2026-12-14",
+          "label": "Performance read"
+        },
+        {
+          "d": "2027-01-14",
+          "label": "Media ends"
+        },
+        {
+          "d": "2027-02-05",
+          "label": "POC readout · scale decision",
+          "decision": true
+        }
+      ],
+      "lanes": [
+        {
+          "group": "Path A · Audience",
+          "kind": "a",
+          "bars": [
+            {
+              "label": "Build Type 1 audience (Vi)",
+              "from": "2026-09-25",
+              "to": "2026-10-09"
+            },
+            {
+              "label": "Load via LiveRamp (WH + Vi)",
+              "from": "2026-10-09",
+              "to": "2026-10-14"
+            }
+          ],
+          "markers": {
+            "label": "weekly 20-min check-in through go-live",
+            "dates": [
+              "2026-09-30",
+              "2026-10-07",
+              "2026-10-14"
+            ]
+          }
+        },
+        {
+          "group": "Path B · Media & measurement",
+          "kind": "b",
+          "bars": [
+            {
+              "label": "Complete go-live checklist (all)",
+              "from": "2026-09-25",
+              "to": "2026-10-14"
+            },
+            {
+              "label": "Deploy media · Meta $200K + TikTok $100K vs. BAU control (WH)",
+              "from": "2026-10-14",
+              "to": "2027-01-14"
+            },
+            {
+              "label": "Measurement & optimization (WH + Vi + Insulet)",
+              "from": "2026-11-01",
+              "to": "2027-01-14"
+            },
+            {
+              "label": "NCS lag — confirmed starts trail leads by 90+ days",
+              "from": "2026-10-14",
+              "to": "2027-02-05",
+              "lag": true
+            },
+            {
+              "label": "Scale Vi audiences →",
+              "from": "2027-02-05",
+              "to": "2027-02-28",
+              "dashed": true
+            }
+          ]
+        }
+      ],
+      "cadence": {
+        "label": "monthly: Vi audience refresh",
+        "from": "2026-11-14",
+        "to": "2027-01-14",
+        "everyDays": 30
+      },
+      "checkpoints": [
+        {
+          "d": "2026-10-09",
+          "label": "Audience built & loaded"
+        },
+        {
+          "d": "2026-10-13",
+          "label": "UTM, pixel & campaign QA"
+        },
+        {
+          "d": "2026-11-16",
+          "label": "First (e)CPNCS read"
+        },
+        {
+          "d": "2026-12-14",
+          "label": "Second read"
+        },
+        {
+          "d": "2027-01-14",
+          "label": "Final pull"
+        },
+        {
+          "d": "2027-02-05",
+          "label": "POC readout"
+        }
+      ]
+    }
+  },
+  "media": {
+    "hypothesis": "Under identical real-world conditions — same creative rotation, bid strategy, pacing, frequency caps, landing page and Get Started events — the Vi Type 1 audience will deliver new customer starts at a lower (e)CPNCS than Wheelhouse's standard third-party audiences, read on Insulet's (e)NCS model with the same definition in both ad sets. Get Started form starts and submits are the in-flight signal; (e)CPNCS by ad set is the read at mid-Nov, mid-Dec and early Feb. If the Test group does not beat Control on (e)CPNCS, the hypothesis fails.",
+    "arms": [
+      {
+        "arm": "Control group",
+        "desc": "Wheelhouse business-as-usual third-party audiences on Meta and TikTok; Vi IDs excluded from the control ad sets",
+        "allocation": "National · {{channels}}",
+        "budget": "{{controlMedia}} · $3M Meta + $1M TikTok (may flex)"
+      },
+      {
+        "arm": "Test group · Vi",
+        "desc": "Vi Type 1 audience — one ad set per platform inside the matched campaign; current Omnipod users suppressed; refreshed monthly",
+        "allocation": "National · {{channels}}",
+        "budget": "{{viMedia}} · $200K Meta + $100K TikTok (fixed)"
+      }
+    ],
+    "armsFootnote": "",
+    "ops": {
+      "intro": "Who owns what between Vi and Wheelhouse once the audience is live.",
+      "raci": {
+        "cols": [
+          "Vi — Audience owner",
+          "Wheelhouse — Media executor"
+        ],
+        "rows": [
+          {
+            "area": "Audience strategy",
+            "cells": [
+              "Define the Type 1 audience — intent signals, qualifying criteria, Omnipod-user suppression",
+              "Apply audience insight to campaign planning; keep the Vi ad set separate from BAU"
+            ]
+          },
+          {
+            "area": "Audience sharing",
+            "cells": [
+              "Deliver via LiveRamp to Wheelhouse's Meta and TikTok accounts; refresh monthly",
+              "Attach to the Vi ad set only; confirm match rates; exclude Vi IDs from control"
+            ]
+          },
+          {
+            "area": "Creative direction",
+            "cells": [
+              "Share messaging best practices by audience motivation",
+              "Run the same creative rotation in both groups; mirror weekly refreshes"
+            ]
+          },
+          {
+            "area": "Campaign deployment",
+            "cells": [
+              "Review setup; flag parity breaks",
+              "Build, launch and optimize; hold bid, pacing and frequency parity; Vi spend fixed"
+            ]
+          },
+          {
+            "area": "Measurement",
+            "cells": [
+              "Read (e)CPNCS Test vs. Control off the Salesforce feed; run the performance reads",
+              "Own UTMs, pixel events and the ad-set-level reporting feed; report learnings and optimization recommendations"
+            ]
+          }
+        ]
+      },
+      "conventions": [
+        {
+          "k": "Naming",
+          "v": "Vi_Omnipod_T1D_[YYYYMMDD]_v[n] — one Vi list, one ad set per platform",
+          "confirm": true
+        },
+        {
+          "k": "Refresh",
+          "v": "Monthly; each refresh replaces the prior list in place so the ad set doesn't re-enter learning"
+        },
+        {
+          "k": "Budgets",
+          "v": "$200K Meta / $100K TikTok fixed on the Vi ad sets; daily pacing, no monthly auto-resets"
+        },
+        {
+          "k": "Retention",
+          "v": "Vi lists archived at POC end per Vi data policy unless the program scales"
+        }
+      ],
+      "tracking": [
+        {
+          "k": "Tracking",
+          "v": "Unique UTM per ad set with a Vi identifier · Get Started form events live in both ad sets · attribution 7-day click / 1-day view · pixel"
+        },
+        {
+          "k": "Feeds",
+          "v": "Daily log-level feed from Meta and TikTok (weekly at minimum), Test vs. Control at the ad-set level · Salesforce (e)NCS feed at ad-set level via automated email, ~1-day lag · web analytics platform TBC"
+        },
+        {
+          "k": "Access",
+          "v": "Meta view access for Vi — optional, not needed to start · readouts mid-Nov, mid-Dec, early Feb"
+        }
+      ],
+      "matrix": [
+        {
+          "arm": "Control group",
+          "include": [
+            "Wheelhouse BAU third-party audiences on Meta and TikTok",
+            "National"
+          ],
+          "exclude": [
+            "Vi Type 1 audience IDs — excluded from the control ad sets",
+            "Current Omnipod users (standard suppression)"
+          ]
+        },
+        {
+          "arm": "Test group · Vi",
+          "include": [
+            "Vi Type 1 audience — own ad set on Meta",
+            "Vi Type 1 audience — own ad set on TikTok",
+            "National"
+          ],
+          "exclude": [
+            "Type 2-skewing intent signals"
+          ]
+        }
+      ],
+      "rules": [
+        "Same creative rotation, landing page and Get Started events in both groups",
+        "Same bid strategy, matched pacing and frequency caps; lead gen the objective in both",
+        "Vi spend fixed at $200K Meta / $100K TikTok; control spend may flex — cost per start keeps the read apples-to-apples",
+        "Weekly creative refreshes mirrored across groups",
+        "Vi IDs excluded from control; current Omnipod users suppressed from the Vi audience",
+        "Mid-flight changes mirrored across groups or frozen — logged with an approver"
+      ],
+      "loop": [
+        {
+          "n": "01",
+          "step": "Audience refresh",
+          "owner": "Vi"
+        },
+        {
+          "n": "02",
+          "step": "Deploy & optimize",
+          "owner": "Wheelhouse"
+        },
+        {
+          "n": "03",
+          "step": "Performance pull",
+          "owner": "Wheelhouse + Vi"
+        },
+        {
+          "n": "04",
+          "step": "Performance Read",
+          "owner": "Vi"
+        },
+        {
+          "n": "05",
+          "step": "Adjust — mirrored or frozen",
+          "owner": "All"
+        }
+      ],
+      "loopNote": "Runs monthly from media live (~Oct 14) to media end (mid-Jan), in step with the audience refresh; formal reads mid-Nov, mid-Dec and early Feb."
+    },
+    "measure": {
+      "lede": "Confirmed new customer starts trail leads by 90+ days and the flight is only three months, so the POC is judged on Insulet's estimated model — (e)CPNCS vs. Control — not on confirmed starts. Two groups, three reads, the early-Feb one decisive.",
+      "options": [
+        {
+          "name": "(e)CPNCS vs. Control",
+          "tag": "PRIMARY · DECIDED",
+          "decided": true,
+          "how": "Media spend ÷ (e)NCS per ad set, off Insulet's (e)NCS model in Salesforce — same definition in both groups",
+          "reads": "The decision · Test vs. Control",
+          "plus": [
+            "Insulet's own metric — the one consumer marketing is managed on",
+            "Holds up under NCS lag; control spend flex doesn't distort it"
+          ],
+          "minus": [
+            "(e)NCS is modeled — scored on diabetes type, physician, source platform, then re-checked against actual starts",
+            "Small Vi cells: needs enough (e)NCS per group to read cleanly"
+          ]
+        },
+        {
+          "name": "(e)NCS volume",
+          "tag": "SECONDARY",
+          "how": "Estimated new customer starts by ad set, Salesforce feed ~1-day lag",
+          "reads": "Absolute starts, Vi vs. Control",
+          "plus": [
+            "Same feed as the primary read",
+            "The growth metric investors watch (FY26 US Omnipod guided +17–19%)"
+          ],
+          "minus": [
+            "Not comparable across groups at $300K vs. $4M spend",
+            "Understated at each read — starts still landing"
+          ]
+        },
+        {
+          "name": "HVAs — Get Started form starts & submits",
+          "tag": "IN-FLIGHT SIGNAL",
+          "how": "Form starts and CTA clicks (Get Started, 30-day trial, starter kit) via pixel / CAPI and web analytics",
+          "reads": "Whether the Vi ad set is pulling ahead before (e)NCS lands",
+          "plus": [
+            "Daily, both groups, from go-live",
+            "Something to optimize against"
+          ],
+          "minus": [
+            "A proxy — form starts are not starts",
+            "Web analytics platform and HVA definitions still open with Wheelhouse (R3)"
+          ]
+        },
+        {
+          "name": "Confirmed NCS · lead-to-start rate",
+          "tag": "LAGGING",
+          "how": "Controller activated from the first Omnipod 5 box, Salesforce, rolling 90-day read",
+          "reads": "Whether Vi leads convert to real starts at or above the Type 1 benchmark",
+          "plus": [
+            "The true outcome — what CAC-to-LTV is built on",
+            "Independent of the model"
+          ],
+          "minus": [
+            "90+ days from lead — mostly lands after the early-Feb readout",
+            "Aspen vs. non-Aspen paths convert at different speeds"
+          ]
+        }
+      ]
+    },
+    "dashboard": {
+      "readouts": [
+        {
+          "id": "R0",
+          "label": "Kickoff",
+          "date": "Sept 25",
+          "state": "filled",
+          "current": true
+        },
+        {
+          "id": "R1",
+          "label": "Media live",
+          "date": "Oct 14",
+          "state": "hollow"
+        },
+        {
+          "id": "R2",
+          "label": "Read 1",
+          "date": "mid-Nov",
+          "state": "hollow"
+        },
+        {
+          "id": "R3",
+          "label": "Read 2",
+          "date": "mid-Dec",
+          "state": "hollow"
+        },
+        {
+          "id": "R4",
+          "label": "Media ends",
+          "date": "mid-Jan",
+          "state": "hollow"
+        },
+        {
+          "id": "R5",
+          "label": "POC readout",
+          "date": "early Feb",
+          "state": "hollow"
+        }
+      ],
+      "note": "Placeholder — filled in at each performance read (mid-Nov, mid-Dec, early Feb).",
+      "kpis": [
+        {
+          "metric": "(e)CPNCS ",
+          "target": "Test vs. Control",
+          "actual": ""
+        },
+        {
+          "metric": "(e)NCS",
+          "target": "For the CPNCS read",
+          "actual": ""
+        },
+        {
+          "metric": "Get Started form starts & submits",
+          "target": "Test rate ≥ Control",
+          "actual": ""
+        },
+        {
+          "metric": "CTR · form conversion rate · video view rate",
+          "target": "Directional",
+          "actual": ""
+        },
+        {
+          "metric": "Confirmed NCS · lead-to-start rate",
+          "target": "vs. Type 1 benchmark",
+          "actual": ""
+        }
+      ]
+    }
+  },
+  "changelog": [
+    {
+      "date": "2026-09-16",
+      "who": "Vi",
+      "what": "Internal hand-off — Vi's first med-device deal, Activate only. 3-month POC agreed in principle: Meta $3M control / $200K Vi, TikTok $1M control / $100K Vi; media targeted Oct 12 – Jan 12; David Sanders point of contact, leads the client kickoff"
+    },
+    {
+      "date": "2026-09-25",
+      "who": "Insulet + Wheelhouse + Vi",
+      "what": "Kickoff — objectives (Type 1 on MDI primary), test structure, media start (week of Oct 12) and the (e)CPNCS / (e)NCS measurement framework confirmed; channels & partners and channel split LOCKED; test design, geo, creative & pacing, suppression and success target IN REVIEW; pixel & tracking OPEN. 4 of 8 go-live items closed. Weekly 20-minute check-in through go-live"
+    },
+    {
+      "date": "2026-09-30",
+      "who": "Vi · David Sanders",
+      "what": "v1.0 — living doc stood up on Vi's v2.0 living-doc base. Home summary, launch calculator to media live (Oct 14), this week's priorities; fourteen-line checklist in five phases; five risks; operating model and measurement in Insulet's (e)NCS language; Performance placeholder indexed to Control = 100. Internal draft, not yet shared with Insulet or Wheelhouse",
+      "edits": []
+    },
+    {
+      "date": "2026-09-30",
+      "who": "David Sanders",
+      "what": "v1.1 — 1 wording / facts change",
+      "edits": [
+        {
+          "path": "checklist.items.5.detail.0",
+          "from": "Which platform is the system of record for site analytics · which on-site events count as HVAs · attribution 7-day click / 1-day view",
+          "to": "System of record for traffic (Insulet's web analytics — GA4, Adobe, or other — vs. Meta / TikTok pixel data) "
+        }
+      ]
+    },
+    {
+      "date": "2026-09-30",
+      "who": "David Sanders",
+      "what": "v1.2 — 14 wording / facts changes",
+      "edits": [
+        {
+          "path": "media.ops.matrix.1.exclude.0",
+          "from": "Current Omnipod users",
+          "to": ""
+        },
+        {
+          "path": "media.ops.matrix.1.exclude.1",
+          "from": "Type 2-skewing intent signals — per the Mark / Ariel follow-up",
+          "to": "Type 2-skewing intent signals "
+        },
+        {
+          "path": "media.ops.loop.3.step",
+          "from": "Readout",
+          "to": "Performance Read"
+        },
+        {
+          "path": "media.ops.matrix.1.include.0",
+          "from": "Vi Type 1 audience — own ad set on Meta",
+          "to": "Vi Type 1 audience — own ad set on Meta"
+        },
+        {
+          "path": "media.ops.matrix.1.include.1",
+          "from": "Vi Type 1 audience — own ad set on TikTok",
+          "to": "Vi Type 1 audience — own ad set on TikTok"
+        },
+        {
+          "path": "media.ops.loopNote",
+          "from": "Runs biweekly from media live (~Oct 14) to media end (mid-Jan); formal reads mid-Nov, mid-Dec and early Feb.",
+          "to": "Runs monthly from media live (~Oct 14) to media end (mid-Jan); formal reads mid-Nov, mid-Dec and early Feb."
+        },
+        {
+          "path": "media.ops.raci.rows.0.cells.0",
+          "from": "Approves the Type 1 MDI definition; Mark and Ariel input on Type 2 skew",
+          "to": "Approves the Type 1 definition"
+        },
+        {
+          "path": "media.ops.raci.rows.0.cells.2",
+          "from": "Owns — intent signals, Type 1 list, Omnipod-user suppression",
+          "to": "Owns — intent signals, Type 1  list, Omnipod-user suppression"
+        },
+        {
+          "path": "media.ops.raci.rows.5.cells.1",
+          "from": "Contributes media learnings",
+          "to": "--"
+        },
+        {
+          "path": "media.ops.raci.rows.1.cells.0",
+          "from": "—",
+          "to": "--"
+        },
+        {
+          "path": "media.ops.raci.rows.3.cells.2",
+          "from": "Audience insight for messaging as the data comes in",
+          "to": "Informed for targeting relevance"
+        },
+        {
+          "path": "media.ops.raci.rows.5.cells.0",
+          "from": "Owns — scale decision after the early-Feb readout",
+          "to": "Owns go-forward "
+        },
+        {
+          "path": "meta.subtitle",
+          "from": "Partnership Living Doc",
+          "to": "Partnership Dashboard"
+        },
+        {
+          "path": "media.groups.1.desc",
+          "from": "Vi Type 1 audience — one ad set per platform inside the matched campaign; current Omnipod users suppressed; refreshed monthly",
+          "to": "Vi Type 1 audience — one ad set per platform inside the matched campaign; current Omnipod users suppressed; refreshed monthly"
+        }
+      ]
+    },
+    {
+      "date": "2026-09-30",
+      "who": "Vi · David Sanders",
+      "what": "v1.3 — checklist item 6 rewritten (system of record + HVA list); risks cleared; audience refresh monthly; Type 1 (T1D) naming; roles cut to Vi + Wheelhouse; Performance pared to the kickoff KPIs; 'arm' → Test group / Control group; Sample line removed",
+      "edits": []
+    },
+    {
+      "date": "2026-09-30",
+      "who": "Vi · David Sanders",
+      "what": "v1.4 — checklist redrafted as task lines with Vi / Wheelhouse owners (editable); done lines fade; Performance cut to a placeholder; measurement spacing fixed; budgets confirmed; (T1D) trimmed",
+      "edits": []
+    },
+    {
+      "date": "2026-10-01",
+      "who": "David Sanders",
+      "what": "v1.5 — Checklist — Lock remaining test parameters: IN PROGRESS → DONE · 11 wording / facts changes",
+      "edits": [
+        {
+          "path": "checklist.items.3.detail.0",
+          "from": "Test design, geo, creative & pacing, suppression, success target · channels and channel split already locked",
+          "to": "Test design  ·  National, suppression, channels, & channel split already locked"
+        },
+        {
+          "path": "checklist.items.3.owner",
+          "from": "WH + VI + INSULET",
+          "to": "WH"
+        },
+        {
+          "path": "media.dashboard.kpis.0.target",
+          "from": "≥10% lower than Control",
+          "to": "test vs. Control"
+        },
+        {
+          "path": "media.dashboard.kpis.0.metric",
+          "from": "(e)CPNCS — Test vs. Control",
+          "to": "(e)CPNCS "
+        },
+        {
+          "path": "media.dashboard.kpis.1.metric",
+          "from": "(e)NCS by ad set",
+          "to": "(e)NCS"
+        },
+        {
+          "path": "media.dashboard.kpis.2.metric",
+          "from": "Get Started form starts and submits",
+          "to": "Get Started form starts & submits"
+        },
+        {
+          "path": "checklist.items.6.detail.0",
+          "from": "~2 weeks from kickoff · MDI as the qualifying criterion · check with Mark and Ariel on signals that skew Type 2 · suppress current Omnipo…",
+          "to": ""
+        },
+        {
+          "path": "checklist.items.13.detail.0",
+          "from": "(e)CPNCS vs. Control on the full flight · confirmed NCS on a rolling 90-day read · scale Vi audiences Feb+ if the bar is met",
+          "to": "(e)CPNCS vs. Control on the full flight · confirmed NCS on a rolling 90-day read"
+        },
+        {
+          "path": "checklist.items.2.detail.0",
+          "from": "Week of Oct 12 · Wheelhouse confirms once the audience lands via LiveRamp",
+          "to": "Week of Oct 12 "
+        },
+        {
+          "path": "checklist.items.3.status",
+          "from": "IN PROGRESS",
+          "to": "DONE"
+        },
+        {
+          "path": "checklist.items.8.owner",
+          "from": "WH + INSULET",
+          "to": "WH"
+        },
+        {
+          "path": "checklist.items.7.owner",
+          "from": "WH + VI",
+          "to": "VI"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-01",
+      "who": "Vi · David Sanders",
+      "what": "v1.6 — merge: v1.5 live edits + LiveRamp destination IDs split out (WH, Fri Oct 2) + 'Confirm reporting requirements' replaces the system-of-record / HVA line + feeds row updated",
+      "edits": []
+    },
+    {
+      "date": "2026-10-01",
+      "who": "David Sanders",
+      "what": "v1.7 — Priorities updated (2 changes) · 8 wording / facts changes",
+      "edits": [
+        {
+          "path": "priorities.items.0.who",
+          "from": "VI + INSULET",
+          "to": "VI"
+        },
+        {
+          "path": "priorities.items.0.text",
+          "from": "Finish the Type 1 audience build — settle with Mark and Ariel which intent signals skew Type 2",
+          "to": "Clarify available inputs from Insulet and advance the Type 1 audience build"
+        },
+        {
+          "path": "summary.groups.1.rows.0.v",
+          "from": "(e)CPNCS vs. Control on Insulet's (e)NCS model — same definition in both ad sets",
+          "to": "(e)CPNCS vs. Control on Insulet's (e)NCS model "
+        },
+        {
+          "path": "summary.groups.1.rows.1.v",
+          "from": "Get Started form starts and submits, other HVAs · daily",
+          "to": "Get Started form starts and submits, other HVAs"
+        },
+        {
+          "path": "facts.successBar",
+          "from": "≥10% lower (e)CPNCS vs. Control",
+          "to": " (e)CPNCS vs. Control"
+        },
+        {
+          "path": "media.ops.tracking.0.v",
+          "from": "Unique UTM per ad set with a Vi identifier · Get Started form events live in both ad sets · attribution 7-day click / 1-day view · pixel …",
+          "to": "Unique UTM per ad set with a Vi identifier · Get Started form events live in both ad sets · attribution 7-day click / 1-day view · pixel"
+        },
+        {
+          "path": "media.ops.intro",
+          "from": "Who owns what between Vi and Wheelhouse once the audience is live. Insulet approves the Type 1 audience definition, creative and landing …",
+          "to": "Who owns what between Vi and Wheelhouse once the audience is live."
+        },
+        {
+          "path": "media.dashboard.kpis.0.target",
+          "from": "test vs. Control",
+          "to": "Test vs. Control"
+        },
+        {
+          "path": "media.dashboard.kpis.1.target",
+          "from": "Context for the CPNCS read",
+          "to": "For the CPNCS read"
+        },
+        {
+          "path": "checklist.items.5.detail.0",
+          "from": "Daily feed (weekly at minimum) from Meta and TikTok, split Test vs. Control at the ad-set level: delivery and spend, pixel / API conversi…",
+          "to": "View access or a daily log-level feed from each deployment platform, split Test vs. Control at the ad-set level: delivery and spend, pixe…"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-01",
+      "who": "Vi · David Sanders",
+      "what": "v1.8 — masthead to 'last edited'; ≥10% bar and decision row removed; How-we'll-know rows editable; audience stat = size; refresh TO CONFIRM off; 'decision in N days' dropped",
+      "edits": []
+    }
+  ]
+}/*__DOC_END__*/;
+</script>
+<style>
+  :root{
+    --paper:#E4E8E2; --ink:#101D1A; --teal:#17423C; --citron:#C9D400;
+    --green:#2E6B4F; --amber:#A66A00; --red:#9E3A2C; --grey:#8A948F;
+    --omni:#5B3FD9;
+    --card:#EEF1EC; --line:rgba(16,29,26,.16); --line-soft:rgba(16,29,26,.09);
+    --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+    --disp:'Archivo','Instrument Sans',system-ui,sans-serif;
+    --body:'Instrument Sans',system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 32px 80px}
+  .omni{color:var(--omni);font-weight:700}
+  .tnum{font-variant-numeric:tabular-nums}
+  button{font-family:inherit}
+
+  /* ---- masthead ---- */
+  header.mast{padding:30px 0 16px}
+  .doc-line{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--teal);margin-bottom:12px}
+  .doc-line .id{font-weight:600}
+  .chip{display:inline-block;border:1px solid var(--line);border-radius:3px;padding:1px 8px}
+  .chip.draft{border-color:var(--amber);color:var(--amber)}
+  .edit-tools{margin-left:auto;display:flex;gap:8px;align-items:center}
+  .ebtn{appearance:none;cursor:pointer;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;border:1.5px solid var(--teal);border-radius:4px;background:none;color:var(--teal);padding:4px 12px;transition:all .12s}
+  .ebtn:hover{background:var(--teal);color:var(--paper)}
+  .ebtn.on{background:var(--ink);border-color:var(--ink);color:var(--citron)}
+  #save-btn{display:none;border-color:var(--ink);color:var(--ink)}
+  #save-btn:hover{background:var(--ink);color:var(--paper)}
+  #save-btn .n{color:var(--amber)}
+  .edit-hint{display:none;font-family:var(--mono);font-size:10px;color:var(--amber)}
+  body.editing .edit-hint{display:inline}
+  body.editing [data-path]{outline:1.5px dashed var(--citron);outline-offset:2px;border-radius:2px;cursor:text;min-width:10px}
+  body.editing [data-path]:focus{outline-style:solid;background:rgba(201,212,0,.08)}
+  [data-cycle]{cursor:pointer}
+  [data-cycle]:hover{filter:brightness(.85)}
+  .box[data-cycle]:hover{box-shadow:0 0 0 3px rgba(23,66,60,.18)}
+  .mast-row{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  h1{font-family:var(--disp);font-weight:800;font-size:30px;letter-spacing:-.025em;line-height:1.05}
+  .sub{font-family:var(--disp);font-weight:600;font-size:14px;letter-spacing:-.005em;color:var(--teal);margin-top:4px}
+  .parties{font-family:var(--mono);font-size:12px;color:var(--ink);text-align:right}
+  .parties b{font-weight:600}
+  .parties span.x{color:var(--grey);padding:0 7px}
+
+  /* ---- health pill ---- */
+  .health{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;border:1.5px solid;border-radius:99px;padding:3px 11px 3px 9px;user-select:none}
+  .health::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+  .health.ok{color:var(--green);border-color:var(--green)}
+  .health.risk{color:var(--amber);border-color:var(--amber)}
+  .health.off{color:var(--red);border-color:var(--red)}
+  .health .hint{font-weight:400;letter-spacing:0;opacity:.6}
+
+  /* ---- tab bar ---- */
+  .tabbar{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:2px solid var(--ink);display:flex;align-items:center;gap:10px;padding:12px 0;overflow-x:auto}
+  .tab{appearance:none;cursor:pointer;font-family:var(--disp);font-weight:700;font-size:13.5px;letter-spacing:-.01em;color:var(--ink);background:var(--card);border:1.5px solid var(--line);border-radius:99px;padding:8px 16px;display:inline-flex;align-items:center;gap:8px;transition:all .13s;white-space:nowrap}
+  .tab .tc{font-family:var(--mono);font-weight:600;font-size:10px;letter-spacing:.05em;color:var(--teal)}
+  .tab:hover{border-color:var(--teal);transform:translateY(-1px)}
+  .tab.active{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+  .tab.active .tc{color:var(--citron)}
+  .kbd-hint{margin-left:auto;align-self:center;font-family:var(--mono);font-size:10px;color:var(--grey);white-space:nowrap;padding-left:12px}
+  @media(max-width:1000px){.kbd-hint{display:none}}
+
+  /* ---- panels ---- */
+  .panel{display:none;padding-top:30px;animation:fadein .22s ease}
+  .panel.active{display:block}
+  @keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .panel-head{display:flex;align-items:baseline;gap:14px;margin-bottom:18px}
+  .panel-head h2{font-family:var(--disp);font-weight:800;font-size:22px;letter-spacing:-.02em}
+  .panel-head .stamp{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--grey)}
+  .sec-code{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--teal)}
+  h3.block-title{font-family:var(--disp);font-weight:700;font-size:13px;letter-spacing:.07em;text-transform:uppercase;color:var(--teal);margin:30px 0 12px}
+  h3.block-title:first-child{margin-top:0}
+  p.lede{max-width:78ch;margin-bottom:22px;font-size:14px;color:var(--ink);opacity:.85}
+
+  /* ---- sub-tabs ---- */
+  .subtabs{display:flex;gap:8px;margin-bottom:26px;flex-wrap:wrap}
+  .subtab{appearance:none;cursor:pointer;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.05em;color:var(--teal);background:none;border:1.5px solid var(--line);border-radius:99px;padding:7px 16px;transition:all .15s}
+  .subtab:hover{border-color:var(--teal)}
+  .subtab.active{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+  .subtab .n{color:var(--grey);margin-left:6px}
+  .subtab.active .n{color:var(--citron)}
+  .subpanel{display:none;animation:fadein .18s ease}
+  .subpanel.active{display:block}
+
+  /* ---- tables ---- */
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);text-align:left;padding:8px 12px;border-bottom:1.5px solid var(--ink)}
+  td{padding:10px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td.mono, .mono{font-family:var(--mono);font-size:12.5px}
+  td.k{font-weight:600;white-space:nowrap;width:220px}
+
+  /* ---- status chips ---- */
+  .state{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;padding:2px 8px;border-radius:3px;border:1px solid;white-space:nowrap}
+  .state.HIGH{color:var(--red);border-color:var(--red)}
+  .state.MED{color:var(--amber);border-color:var(--amber)}
+  .state.DONE{color:var(--grey);border-color:var(--grey)}
+  .tag{display:inline-block;font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.1em;padding:2px 7px;border-radius:3px;border:1px solid var(--line);color:var(--teal);white-space:nowrap;vertical-align:middle}
+  .tag.decided{background:var(--teal);border-color:var(--teal);color:var(--paper)}
+  .tag.confirm{border-color:var(--amber);color:var(--amber)}
+
+  /* ---- hypothesis block ---- */
+  .hypo{background:var(--ink);color:var(--paper);padding:26px 30px;border-radius:4px}
+  .hypo .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--citron);display:block;margin-bottom:10px;border:none;padding:0;background:none}
+  .hypo p{font-family:var(--disp);font-weight:500;font-size:16.5px;line-height:1.5;letter-spacing:-.005em}
+
+  /* ---- cards / grids ---- */
+  .card{background:var(--card);border:1px solid var(--line-soft);border-radius:4px;padding:18px 20px}
+  .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  @media(max-width:860px){.grid2{grid-template-columns:1fr}}
+  .arm .arm-name{font-family:var(--disp);font-weight:700;font-size:14px;margin-bottom:6px}
+  .arm p{font-size:13.5px;margin-bottom:10px}
+  .arm .arm-meta{font-family:var(--mono);font-size:11.5px;color:var(--teal);line-height:1.7}
+  .foot{font-family:var(--mono);font-size:11px;color:var(--grey);margin-top:10px}
+  .oi-note{font-family:var(--mono);font-size:11px;color:var(--grey);margin-bottom:10px}
+
+  /* ---- summary (home) ---- */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+  @media(max-width:860px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:var(--card);border:1px solid var(--line-soft);border-radius:4px;padding:14px 16px 12px}
+  .stat b{display:block;font-family:var(--disp);font-weight:800;font-size:27px;letter-spacing:-.03em;line-height:1;color:var(--teal);font-variant-numeric:tabular-nums}
+  .stat .sl{display:block;font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.12em;color:var(--ink);margin-top:7px}
+  .stat .ss{display:block;font-family:var(--mono);font-size:10.5px;color:var(--grey);margin-top:3px;line-height:1.4}
+  .sgroups{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:14px;margin-top:14px}
+  @media(max-width:860px){.sgroups{grid-template-columns:1fr}}
+  .sgroup{background:var(--card);border:1px solid var(--line-soft);border-radius:4px;padding:14px 16px 8px}
+  .sgt{font-family:var(--disp);font-weight:700;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--teal);padding-bottom:8px;border-bottom:1.5px solid var(--ink);margin-bottom:4px}
+  .srow{display:grid;grid-template-columns:76px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid var(--line-soft);align-items:baseline}
+  .srow:last-child{border-bottom:none}
+  .sk{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--grey)}
+  .sv{font-size:13.5px;line-height:1.4}
+  .who{padding:9px 0;border-bottom:1px solid var(--line-soft)}
+  .who:last-child{border-bottom:none}
+  .who .wo{font-family:var(--disp);font-weight:700;font-size:14px;letter-spacing:-.01em}
+  .who .wr{font-size:12.5px;line-height:1.4;opacity:.85;margin-top:1px}
+  .who .wc{font-family:var(--mono);font-size:11px;color:var(--teal);margin-top:4px;line-height:1.5}
+  .facts-edit{display:none;margin-top:18px;border:1.5px dashed var(--citron);border-radius:4px;padding:12px 16px;background:rgba(201,212,0,.06)}
+  body.editing .facts-edit{display:block}
+  .facts-edit .ft{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;color:var(--amber);margin-bottom:8px}
+  .facts-edit table td{padding:5px 10px 5px 0;border:none;font-size:13px}
+  .facts-edit td.k{width:140px;font-family:var(--mono);font-size:11px;color:var(--teal)}
+
+  /* ---- launch calculator ---- */
+  .calc{display:grid;grid-template-columns:200px 1fr;gap:26px;align-items:center;background:var(--card);border:1px solid var(--line-soft);border-radius:4px;padding:22px 26px;margin-top:26px}
+  @media(max-width:700px){.calc{grid-template-columns:1fr}}
+  .ring{position:relative;width:170px;height:170px;margin:0 auto}
+  .ring svg{width:170px;height:170px;transform:rotate(-90deg)}
+  .ring .rp{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .ring .rp b{font-family:var(--disp);font-weight:800;font-size:38px;letter-spacing:-.03em;line-height:1}
+  .ring .rp small{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;color:var(--grey);margin-top:4px}
+  .calc-r .cl{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--teal);font-weight:600}
+  .calc-r .cg{font-family:var(--disp);font-weight:700;font-size:16px;letter-spacing:-.01em;margin:4px 0 12px;line-height:1.35}
+  .calc-r .cd{font-family:var(--mono);font-size:11.5px;color:var(--ink);margin-bottom:14px}
+  .calc-r .cd b{font-weight:600}
+  .calc-r .cd .late{color:var(--red);font-weight:600}
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  @media(max-width:560px){.tiles{grid-template-columns:repeat(2,1fr)}}
+  .tile{background:var(--paper);border:1px solid var(--line-soft);border-radius:4px;padding:10px 12px}
+  .tile b{display:block;font-family:var(--disp);font-weight:800;font-size:24px;letter-spacing:-.02em;line-height:1}
+  .tile b small{font-size:13px;color:var(--grey);font-weight:700}
+  .tile span{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--grey);display:block;margin-top:5px}
+  .tile.blocked b{color:var(--red)}
+  .tile.late b{color:var(--red)}
+  .calc-note{font-family:var(--mono);font-size:10.5px;color:var(--grey);margin-top:12px;max-width:70ch}
+
+  /* ---- priorities ---- */
+  .prio{margin-top:26px;border:1px solid var(--line-soft);border-radius:4px;padding:18px 20px;background:var(--card)}
+  .prio-head{display:flex;align-items:baseline;gap:12px;margin-bottom:10px}
+  .prio-head h3{font-family:var(--disp);font-weight:700;font-size:14px;letter-spacing:-.01em}
+  .prio-head .n{font-family:var(--mono);font-size:10.5px;color:var(--grey)}
+  .prio-it{display:grid;grid-template-columns:18px 1fr auto auto;gap:12px;align-items:start;padding:8px 0;border-top:1px solid var(--line-soft)}
+  .prio-it .t{font-size:14px;line-height:1.4}
+  .prio-it.done .t{color:var(--grey);text-decoration:line-through}
+  .prio-it .rm{display:none;appearance:none;border:none;background:none;color:var(--red);font-family:var(--mono);font-size:13px;cursor:pointer;padding:0 4px;line-height:1}
+  body.editing .prio-it .rm{display:inline}
+  .prio-add{display:none;grid-template-columns:1fr 130px auto;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line-soft)}
+  body.editing .prio-add{display:grid}
+  .prio-add input{font-family:var(--body);font-size:13.5px;padding:7px 10px;border:1.5px solid var(--line);border-radius:4px;background:var(--paper);color:var(--ink)}
+  .prio-add input:focus{outline:none;border-color:var(--teal)}
+  .prio-empty{font-family:var(--mono);font-size:11px;color:var(--grey);padding:8px 0}
+
+  /* ---- checklist atoms ---- */
+  .own{display:inline-block;font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.08em;padding:2px 7px;border-radius:3px;background:rgba(16,29,26,.08);color:var(--ink);white-space:nowrap}
+  .own.VI{background:var(--teal);color:var(--paper)}
+  .own.INSULET{background:rgba(91,63,217,.14);color:#3F2AA8}
+  .own.WH{background:rgba(16,29,26,.08);color:var(--ink)}
+  .box{width:16px;height:16px;border:1.5px solid var(--ink);border-radius:2px;display:inline-block;position:relative;flex:none;background:var(--paper)}
+  .box.done{background:var(--teal);border-color:var(--teal)}
+  .box.done::after{content:"";position:absolute;left:4px;top:1px;width:4px;height:8px;border:solid var(--paper);border-width:0 2px 2px 0;transform:rotate(45deg)}
+  .box.prog{background:linear-gradient(135deg,var(--ink) 50%,var(--paper) 50%)}
+  .box.blocked{background:var(--red);border-color:var(--red)}
+  .box.blocked::after{content:"!";position:absolute;left:0;right:0;top:-1px;text-align:center;color:var(--paper);font-family:var(--mono);font-weight:600;font-size:11px}
+  .box.late{border-color:var(--red)}
+  .stt{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;font-weight:600;white-space:nowrap}
+  .stt.done{color:var(--green)} .stt.prog{color:var(--amber)} .stt.late{color:var(--red)} .stt.open{color:var(--grey)} .stt.blocked{color:var(--red)}
+  .date{font-family:var(--mono);font-size:11px;color:var(--grey);white-space:nowrap}
+  .date.late{color:var(--red);font-weight:600}
+  .sumline{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+  .sumline .big{font-family:var(--disp);font-weight:800;font-size:34px;letter-spacing:-.03em;line-height:1}
+  .sumline .big small{font-size:14px;font-weight:700;color:var(--grey)}
+  .sumline .f{font-family:var(--mono);font-size:11px;color:var(--grey)} .sumline .f.red{color:var(--red);font-weight:600}
+  .sumline .cad{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--grey)}
+
+  /* ---- checklist filters ---- */
+  .filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+  .fchip{appearance:none;cursor:pointer;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;color:var(--teal);background:none;border:1.5px solid var(--line);border-radius:99px;padding:4px 12px;transition:all .12s}
+  .fchip:hover{border-color:var(--teal)}
+  .fchip.active{background:var(--teal);border-color:var(--teal);color:var(--paper)}
+  .fchip .n{opacity:.6;margin-left:5px}
+  .filters .fl{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--grey);margin-right:4px}
+
+  /* ---- checklist · ledger ---- */
+  .lg{border-top:2px solid var(--ink)}
+  .lg-head,.lg-it{display:grid;grid-template-columns:18px 250px 1fr 120px 96px;gap:16px;align-items:start}
+  .lg-head{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);padding:8px 4px;border-bottom:1px solid var(--line)}
+  .lg-ph{display:flex;align-items:baseline;gap:10px;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);padding:16px 4px 6px;border-bottom:1px solid var(--line)}
+  .lg-ph .n{font-weight:500;color:var(--grey);letter-spacing:.04em}
+  .lg-ph .bar{margin-left:auto;width:120px;height:4px;background:var(--line-soft);border-radius:2px;overflow:hidden;align-self:center}
+  .lg-ph .bar i{display:block;height:100%;background:var(--teal)}
+  .lg-it{padding:14px 4px;border-bottom:1px solid var(--line-soft)}
+  .lg-it:last-child{border-bottom:none}
+  .lg-it .box{margin-top:2px}
+  .lg-it .t{font-family:var(--disp);font-weight:700;font-size:14.5px;letter-spacing:-.01em;line-height:1.35}
+  .lg-it .dl{list-style:none;display:flex;flex-direction:column;gap:3px;font-size:12.5px;color:var(--ink);opacity:.72;line-height:1.4}
+  .lg-it .dl li{padding-left:12px;position:relative}
+  .lg-it .dl li::before{content:"·";position:absolute;left:1px;top:0;font-weight:700;color:var(--teal)}
+  .lg-it .ow{display:flex;flex-wrap:wrap;gap:4px}
+  .lg-it .r,.lg-head .r{text-align:right}
+  .lg-it .r .stt{display:block;margin-top:3px}
+  .lg-it.done .t{color:var(--grey);text-decoration:line-through;text-decoration-thickness:1px;text-decoration-color:var(--line)}
+  .lg-it.done{opacity:.38}
+  .lg-it.done .box{opacity:.9}
+  .lg-it.late{box-shadow:inset 3px 0 0 var(--red)}
+  .lg-it.blocked{box-shadow:inset 3px 0 0 var(--red);background:rgba(158,58,44,.05)}
+  @media(max-width:860px){.lg-head{display:none}.lg-it{grid-template-columns:18px 1fr 96px}.lg-it .dl,.lg-it .ow{grid-column:2}}
+
+  /* ---- risks ---- */
+  .trk-row{display:grid;grid-template-columns:88px 1fr 185px 130px 96px;gap:12px;padding:11px 4px;border-bottom:1px solid var(--line-soft);align-items:baseline;font-size:14px}
+  .trk-row:last-child{border-bottom:none}
+  .trk-row .own2{font-family:var(--mono);font-size:11.5px;color:var(--teal)}
+  .trk-row .due{font-family:var(--mono);font-size:11px;color:var(--grey)}
+  .trk-row .st{text-align:right}
+  .trk-row .sub{display:block;font-size:12px;color:var(--grey);margin-top:4px;max-width:64ch}
+  @media(max-width:760px){.trk-row{grid-template-columns:88px 1fr 96px}.trk-row .own2,.trk-row .due{grid-column:2}}
+
+  /* ---- operating model ---- */
+  .raci td:first-child{font-weight:600;width:200px}
+  .raci td{font-size:13.5px}
+  .raci td.owns{background:rgba(23,66,60,.07)}
+  .conv td.k{width:110px}
+  .mx{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  @media(max-width:700px){.mx{grid-template-columns:1fr}}
+  .mx .card h4{font-family:var(--disp);font-weight:700;font-size:14px;margin-bottom:10px}
+  .mx .lb{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.12em;margin:8px 0 4px}
+  .mx .lb.inc{color:var(--green)} .mx .lb.exc{color:var(--red)}
+  .mx ul{list-style:none;font-size:13px;line-height:1.45}
+  .mx li{padding-left:12px;position:relative}
+  .mx li::before{content:"·";position:absolute;left:1px;font-weight:700;color:var(--teal)}
+  .rules{list-style:none;font-size:14px;columns:2;column-gap:28px}
+  @media(max-width:700px){.rules{columns:1}}
+  .rules li{padding-left:20px;position:relative;margin-bottom:6px;break-inside:avoid}
+  .rules li::before{content:"—";position:absolute;left:0;color:var(--teal)}
+  .loop{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-items:stretch}
+  @media(max-width:760px){.loop{grid-template-columns:1fr}}
+  .loop .st{background:var(--card);border:1px solid var(--line-soft);border-radius:4px;padding:12px 14px;position:relative}
+  .loop .st .n{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;color:var(--citron);background:var(--ink);display:inline-block;padding:1px 6px;border-radius:3px;margin-bottom:8px}
+  .loop .st .s{font-family:var(--disp);font-weight:700;font-size:13.5px;line-height:1.3}
+  .loop .st .o{font-family:var(--mono);font-size:10.5px;color:var(--teal);margin-top:6px}
+  .loop .st:not(:last-child)::after{content:"→";position:absolute;right:-10px;top:50%;transform:translateY(-50%);color:var(--grey);font-size:14px;z-index:1}
+  @media(max-width:760px){.loop .st:not(:last-child)::after{display:none}}
+
+  /* ---- measurement options ---- */
+  .opts{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  @media(max-width:760px){.opts{grid-template-columns:1fr}}
+  .opt{background:var(--card);border:1px solid var(--line-soft);border-radius:4px;padding:16px 18px}
+  .opt.decided{border:1.5px solid var(--teal)}
+  .opt .oh{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+  .opt .oh h4{font-family:var(--disp);font-weight:700;font-size:14.5px;letter-spacing:-.01em}
+  .opt .how{font-size:13px;color:var(--ink);opacity:.8;margin-bottom:4px}
+  .opt .reads{font-family:var(--mono);font-size:11px;color:var(--teal);margin-bottom:10px}
+  .opt .pm{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .opt .pm .lb{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.12em;margin-bottom:3px}
+  .opt .pm .plus .lb{color:var(--green)} .opt .pm .minus .lb{color:var(--red)}
+  .opt .pm ul{list-style:none;font-size:12.5px;line-height:1.4}
+  .opt .pm li{padding-left:10px;position:relative}
+  .opt .pm li::before{content:"·";position:absolute;left:0;font-weight:700}
+  .open-list{list-style:none;font-size:14px}
+  .open-list li{padding:7px 0 7px 14px;border-bottom:1px solid var(--line-soft);position:relative}
+  .open-list li::before{content:"○";position:absolute;left:0;color:var(--grey);font-size:11px;top:10px}
+  .open-list li:last-child{border-bottom:none}
+
+  /* ---- timeline ---- */
+  .tl-wrap{position:relative}
+  .tl-today{position:absolute;top:22px;bottom:44px;width:0;border-left:1.5px dashed var(--red);z-index:2;pointer-events:none}
+  .tl-today b{position:absolute;top:-16px;left:-18px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.12em;color:var(--paper);background:var(--red);padding:1px 5px;border-radius:2px}
+  .tl-months{display:grid;grid-template-columns:repeat(7,1fr);font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--grey);border-bottom:1px solid var(--line);padding-bottom:5px}
+  .tl-miles{position:relative;height:64px}
+  .tl-mile{position:absolute;bottom:6px;transform:translateX(-50%);text-align:center}
+  .tl-mile .tri{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:9px solid var(--teal);margin:4px auto 0}
+  .tl-mile b{display:block;font-family:var(--mono);font-weight:600;font-size:9.5px;color:var(--ink);max-width:92px;line-height:1.3}
+  .tl-mile.decision b{border:1.5px dashed var(--teal);border-radius:3px;padding:2px 5px;background:var(--paper)}
+  .tl-axis{height:1.5px;background:var(--ink);opacity:.5;margin-bottom:14px}
+  .tl-group{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.12em;color:var(--teal);margin:14px 0 6px}
+  .tl-group .sw{display:inline-block;width:10px;height:10px;border-radius:2px;vertical-align:-1px;margin-right:7px}
+  .tl-row{position:relative;height:25px;margin-bottom:7px}
+  .tl-bar{position:absolute;top:2px;height:21px;border-radius:3px}
+  .tl-bar.b{background:var(--teal)}
+  .tl-bar.a{background:rgba(23,66,60,.16)}
+  .tl-bar.lag{background:repeating-linear-gradient(-45deg,var(--grey),var(--grey) 4px,transparent 4px,transparent 9px);opacity:.55}
+  .tl-bar.dashed{background:transparent;border:1.5px dashed var(--teal)}
+  .tl-bar span{position:absolute;left:8px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:10px;white-space:nowrap;letter-spacing:.02em;color:var(--paper)}
+  .tl-bar.a span{color:var(--ink)}
+  .tl-bar span.out{left:100%;margin-left:8px;color:var(--ink)}
+  .tl-bar.lag span,.tl-bar.dashed span{color:var(--ink);background:var(--paper);padding:1px 6px;border-radius:2px}
+  .tl-markers{position:relative;height:22px}
+  .tl-markers .dia{position:absolute;top:4px;width:9px;height:9px;background:rgba(23,66,60,.28);border:1px solid var(--teal);transform:translateX(-50%) rotate(45deg)}
+  .tl-markers .mlabel{position:absolute;top:2px;font-family:var(--mono);font-size:9.5px;color:var(--grey);white-space:nowrap}
+  .tl-cadence{position:relative;height:30px;border-top:1px solid var(--line-soft);margin-top:8px}
+  .tl-cadence .cd{position:absolute;top:10px;width:7px;height:7px;border-radius:50%;background:var(--teal);opacity:.5;transform:translateX(-50%)}
+  .tl-cadence .clabel{position:absolute;top:8px;right:0;font-family:var(--mono);font-size:9.5px;color:var(--grey);background:var(--paper);padding-left:8px}
+  .tl-checks{position:relative;height:100px;border-top:1px solid var(--line)}
+  .tl-check{position:absolute;top:0;transform:translateX(-50%);text-align:center}
+  .tl-check .dia{width:9px;height:9px;background:var(--teal);transform:rotate(45deg);margin:7px auto 6px}
+  .tl-check b{display:block;font-family:var(--mono);font-weight:500;font-size:9.5px;color:var(--ink);max-width:112px;line-height:1.3;background:var(--paper);position:relative;z-index:1;padding:0 2px}
+  .tl-check.alt{top:46px}
+  .tl-legend{display:flex;flex-wrap:wrap;gap:8px 22px;font-family:var(--mono);font-size:10px;color:var(--grey);margin-top:14px;padding-top:10px;border-top:1px solid var(--line-soft)}
+  .tl-legend .sw{display:inline-block;width:10px;height:10px;border-radius:2px;vertical-align:-1px;margin-right:6px}
+
+  /* ---- history ---- */
+  .hist{border-top:2px solid var(--ink)}
+  .hrow{display:grid;grid-template-columns:96px 150px 1fr;gap:16px;padding:12px 4px;border-bottom:1px solid var(--line-soft);font-size:13.5px;align-items:start}
+  @media(max-width:700px){.hrow{grid-template-columns:96px 1fr}.hrow .hw{grid-column:2}}
+  .hrow .hd{font-family:var(--mono);font-size:11px;color:var(--grey)}
+  .hrow .hw{font-family:var(--mono);font-size:11.5px;color:var(--teal);font-weight:600}
+  .hrow .rv{font-family:var(--mono);font-weight:600;color:var(--ink);margin-right:6px}
+  .hrow details{margin-top:6px}
+  .hrow summary{cursor:pointer;font-family:var(--mono);font-size:10.5px;color:var(--grey);list-style:none}
+  .hrow summary::before{content:"▸ ";}
+  .hrow details[open] summary::before{content:"▾ ";}
+  .hrow .fe{font-family:var(--mono);font-size:11px;color:var(--ink);padding:3px 0 3px 12px;border-left:2px solid var(--line-soft);margin-top:4px;word-break:break-word}
+  .hrow .fe .p{color:var(--teal)} .hrow .fe .fr{color:var(--grey);text-decoration:line-through} .hrow .fe .to{color:var(--green)}
+
+  /* ---- performance / ruler ---- */
+  .dash{background:var(--card);border:1px solid var(--line-soft);border-radius:4px;padding:26px 28px}
+  .ruler{display:flex;align-items:flex-start;justify-content:space-between;position:relative;margin:14px 0 30px}
+  .ruler::before{content:"";position:absolute;top:9px;left:10px;right:10px;height:1.5px;background:var(--ink);opacity:.35}
+  .rtick{position:relative;text-align:center;flex:1}
+  .rtick .c{width:19px;height:19px;border-radius:50%;margin:0 auto;border:2px solid var(--ink);background:transparent;position:relative;z-index:1}
+  .rtick.filled .c{background:var(--ink)}
+  .rtick.current .c{box-shadow:0 0 0 4px var(--citron)}
+  .rtick .rl{font-family:var(--mono);font-size:10.5px;font-weight:600;margin-top:8px;letter-spacing:.04em}
+  .rtick .rd{font-family:var(--mono);font-size:10px;color:var(--grey)}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:26px}
+  @media(max-width:860px){.kpis{grid-template-columns:repeat(2,1fr)}}
+  .kpi{background:var(--paper);border:1px solid var(--line-soft);border-radius:4px;padding:14px 16px}
+  .kpi .kl{font-size:12px;font-weight:600;min-height:34px}
+  .kpi .kv{font-family:var(--mono);font-size:19px;font-weight:600;margin:6px 0 2px;color:var(--teal)}
+  .kpi .kv.pending{color:var(--grey);font-size:15px}
+  .kpi .kt{font-family:var(--mono);font-size:10px;color:var(--grey)}
+  .chart-note{font-size:12.5px;color:var(--ink);opacity:.75;max-width:70ch;margin-top:10px}
+  .kpit td{font-size:13px} .kpit td.km{font-weight:600} .kpit td.mono{font-size:11.5px} .kpit td.pend{color:var(--grey)} .kpit td:last-child{width:140px} .kpit td.mono{width:240px}
+
+  footer{margin-top:60px;border-top:1px solid var(--line);padding-top:14px;display:flex;justify-content:space-between;gap:20px;font-family:var(--mono);font-size:10.5px;color:var(--grey)}
+  footer .fb{color:var(--ink)}
+  svg text{font-family:var(--mono)}
+
+  /* ---- home ---- */
+  .stale-banner{display:none;font-family:var(--mono);font-size:11px;color:var(--paper);background:var(--amber);border-radius:4px;padding:9px 14px;margin-top:12px}
+  .draft-banner{display:none;font-family:var(--mono);font-size:11px;color:var(--ink);background:rgba(201,212,0,.35);border:1.5px solid var(--citron);border-radius:4px;padding:9px 14px;margin-top:12px;align-items:center;gap:14px;flex-wrap:wrap}
+  .draft-banner .ebtn{padding:2px 10px}
+  .err-banner{font-family:var(--mono);font-size:12px;color:#fff;background:var(--red);padding:12px 18px}
+  .home-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+  @media(max-width:860px){.home-cards{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.home-cards{grid-template-columns:1fr}}
+  .hcard{appearance:none;cursor:pointer;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:7px;padding:18px 18px 15px;display:flex;flex-direction:column;gap:6px;transition:all .13s;font-family:var(--body);color:var(--ink)}
+  .hcard:hover{border-color:var(--teal);transform:translateY(-2px)}
+  .hcard .hc-code{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--teal)}
+  .hcard .hc-name{font-family:var(--disp);font-weight:800;font-size:17px;letter-spacing:-.01em}
+  .hcard .hc-q{font-size:13px;line-height:1.45;min-height:38px}
+  .hcard .hc-stat{font-family:var(--mono);font-size:10.5px;color:var(--grey);border-top:1px solid var(--line-soft);padding-top:8px;margin-top:2px}
+  .hcard .hc-go{font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--teal)}
+  .home-foot{font-family:var(--mono);font-size:10.5px;color:var(--grey);margin-top:18px}
+
+  /* ---- save-rev modal ---- */
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(16,29,26,.55);z-index:200;align-items:center;justify-content:center;padding:20px}
+  .modal-bg.on{display:flex}
+  .modal{background:var(--paper);border-radius:6px;padding:26px 28px;width:min(640px,100%);max-height:90vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+  .modal h3{font-family:var(--disp);font-weight:800;font-size:18px;letter-spacing:-.02em;margin-bottom:4px}
+  .modal .ms{font-family:var(--mono);font-size:11px;color:var(--grey);margin-bottom:18px}
+  .modal label{display:block;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;color:var(--teal);margin:14px 0 5px}
+  .modal input,.modal textarea{width:100%;font-family:var(--body);font-size:14px;padding:8px 10px;border:1.5px solid var(--line);border-radius:4px;background:var(--card);color:var(--ink)}
+  .modal input:focus,.modal textarea:focus{outline:none;border-color:var(--teal)}
+  .modal textarea{min-height:110px;resize:vertical;line-height:1.45}
+  .modal .mrow{display:grid;grid-template-columns:1fr 140px;gap:14px}
+  .modal .fe-list{font-family:var(--mono);font-size:11px;max-height:160px;overflow:auto;border:1px solid var(--line-soft);border-radius:4px;padding:8px 10px;background:var(--card);line-height:1.6}
+  .modal .fe-list .p{color:var(--teal)} .modal .fe-list .fr{color:var(--grey);text-decoration:line-through} .modal .fe-list .to{color:var(--green)}
+  .modal .mact{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+  .modal .mact .ebtn{padding:8px 16px;font-size:11px}
+  .modal .mact .ebtn.primary{background:var(--ink);border-color:var(--ink);color:var(--citron)}
+  .modal .mact .ebtn.primary:hover{background:var(--teal);border-color:var(--teal);color:var(--paper)}
+
+  /* ---- print ---- */
+  @media print{
+    .tabbar,.subtabs,.kbd-hint,.edit-tools,.filters,.prio-add,.modal-bg{display:none}
+    .panel,.subpanel{display:block!important;page-break-before:always}
+    .panel:first-of-type{page-break-before:avoid}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="mast">
+    <div class="doc-line">
+      <span class="id" id="m-date"></span>
+      <span class="chip draft" id="m-status" style="display:none"></span>
+      <span class="health" id="m-health" data-cycle="health"></span>
+      <span class="edit-tools">
+        <span class="edit-hint">editing text — click outlined text to type · {{fact}} strings update from the facts table on Home</span>
+        <button class="ebtn" id="edit-btn">✎ EDIT</button>
+        <button class="ebtn" id="save-btn">⬇ SAVE REV <span class="n" id="save-n"></span></button>
+      </span>
+    </div>
+    <div class="mast-row">
+      <div><h1 id="m-title"></h1><div class="sub" id="m-sub"></div></div>
+      <div class="parties" id="m-parties"></div>
+    </div>
+    <div class="stale-banner" id="stale"></div>
+    <div class="draft-banner" id="draft"></div>
+  </header>
+
+  <nav class="tabbar" id="tabbar" role="tablist"></nav>
+
+  <main>
+    <!-- 00 HOME -->
+    <section class="panel" id="s-home">
+      <div class="subtabs" style="margin-top:0">
+        <button class="subtab" data-sub="h-sub-over">Overview</button>
+        <button class="subtab" data-sub="h-sub-tl">Timeline</button>
+      </div>
+      <div class="subpanel" id="h-sub-over">
+        <div class="hypo"><span class="tag">THE PARTNERSHIP</span><p id="h-what"></p></div>
+        <div class="sumgrid" id="h-summary"></div>
+        <div class="facts-edit" id="h-facts"></div>
+        <div class="calc" id="h-calc"></div>
+        <div class="prio" id="h-prio"></div>
+        <div class="home-cards" id="h-cards"></div>
+        <div class="home-foot">Click a card to open it · ← → moves between sections · updated weekly through go-live, then at each performance read · history of record in the file's change log</div>
+      </div>
+      <div class="subpanel" id="h-sub-tl">
+        <h3 class="block-title">Timeline</h3>
+        <div id="p-tl"></div>
+      </div>
+    </section>
+
+    <!-- 01 STATUS -->
+    <section class="panel" id="s-status">
+      <div class="panel-head"><span class="sec-code">§01</span><h2>Status</h2><span class="stamp stamp-dyn"></span></div>
+      <div class="subtabs">
+        <button class="subtab" data-sub="st-sub-check">Go-live checklist<span class="n" id="st-check-n"></span></button>
+        <button class="subtab" data-sub="st-sub-risks">Risks<span class="n" id="st-risk-n"></span></button>
+      </div>
+      <div class="subpanel" id="st-sub-check">
+        <div class="oi-note">One line per item, grouped by phase. Anything past its target date flags red and lands in Risks on its own. Filters narrow the view; the full list is the default.</div>
+        <div id="st-check"></div>
+      </div>
+      <div class="subpanel" id="st-sub-risks">
+        <div class="oi-note">What could knock the early-Feb readout off course — each with the if-it-lands and the mitigation. Auto-flags below come straight from the checklist.</div>
+        <div id="st-risks"></div>
+      </div>
+    </section>
+
+    <!-- 02 DESIGN & SETUP -->
+    <section class="panel" id="s-design">
+      <div class="panel-head"><span class="sec-code">§02</span><h2>Design &amp; Setup</h2><span class="stamp stamp-dyn"></span></div>
+      <div class="hypo" style="margin-bottom:26px"><span class="tag">HYPOTHESIS · FALSIFIABLE</span><p id="m-hypo"></p></div>
+      <div class="subtabs">
+        <button class="subtab" data-sub="d-sub-ops">Operating model</button>
+        <button class="subtab" data-sub="d-sub-meas">Measurement</button>
+      </div>
+      <div class="subpanel" id="d-sub-ops">
+        <p class="lede" id="o-intro"></p>
+        <h3 class="block-title">Roles — who owns what</h3>
+        <table class="raci"><thead id="o-raci-h"></thead><tbody id="o-raci"></tbody></table>
+        <h3 class="block-title">Audience conventions</h3>
+        <table class="conv"><tbody id="o-conv"></tbody></table>
+        <h3 class="block-title">Tracking, feeds and access</h3>
+        <table class="conv"><tbody id="o-track"></tbody></table>
+        <h3 class="block-title">Audience matrix — inclusions and exclusions by group</h3>
+        <div class="mx" id="o-mx"></div>
+        <h3 class="block-title">Campaign rules</h3>
+        <ul class="rules" id="o-rules"></ul>
+        <h3 class="block-title">Optimization loop</h3>
+        <div class="loop" id="o-loop"></div>
+        <div class="foot" id="o-loop-note"></div>
+      </div>
+      <div class="subpanel" id="d-sub-meas">
+        <p class="lede" id="ms-lede"></p>
+        <div class="grid2" id="m-arms" style="margin-bottom:26px"></div>
+        <div class="foot" id="m-arms-foot" style="margin:-16px 0 26px"></div>
+        <div class="opts" id="ms-opts"></div>
+      </div>
+    </section>
+
+    <!-- 03 PERFORMANCE -->
+    <section class="panel" id="s-perf">
+      <div class="panel-head"><span class="sec-code">§03</span><h2>Performance</h2><span class="stamp stamp-dyn"></span></div>
+      <div class="oi-note" style="margin-bottom:16px">PLACEHOLDER — nothing to read until media is live and the first read lands (mid-Nov).</div>
+      <div class="dash">
+        <div class="mono" style="font-size:10.5px;letter-spacing:.1em;color:var(--teal)">READOUT RULER · MAPS TO THE TIMELINE</div>
+        <div class="ruler" id="m-ruler"></div>
+        <div class="mono" style="font-size:10.5px;letter-spacing:.1em;color:var(--teal);margin:26px 0 8px">KPIs TO TRACK</div>
+        <table class="kpit"><thead><tr><th>Metric</th><th>Target</th><th>Latest</th></tr></thead><tbody id="m-kpis"></tbody></table>
+        <div class="chart-note" id="m-kpi-note"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span class="fb">Insulet <span class="omni">Omnipod</span> &nbsp;|&nbsp; Wheelhouse &nbsp;|&nbsp; Vi</span>
+    <span id="f-conf"></span>
+    <span id="f-stamp"></span>
+  </footer>
+</div>
+
+<!-- SAVE REV modal -->
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <h3>Save a new rev</h3>
+    <div class="ms">Writes the change log entry with your name and the field-level diff, bumps the rev, and downloads the new file. Replace the deployed file with it.</div>
+    <div class="mrow">
+      <div><label>YOUR NAME</label><input id="mv-who" placeholder="e.g. David Sanders (Vi)"></div>
+      <div><label>NEW REV</label><input id="mv-rev"></div>
+    </div>
+    <label>WHAT CHANGED — one line per point (becomes the rev delta and the change-log entry)</label>
+    <textarea id="mv-what"></textarea>
+    <label>FIELD CHANGES RECORDED THIS SESSION</label>
+    <div class="fe-list" id="mv-fe"></div>
+    <div class="mact">
+      <button class="ebtn" id="mv-cancel">CANCEL</button>
+      <button class="ebtn primary" id="mv-ok">SAVE &amp; DOWNLOAD</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  /* Snapshot of this file's source, captured before any DOM mutation — used by SAVE REV. */
+  const SRC = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  const F = s => String(s).replace(/\{\{(\w+)\}\}/g, (m,k) => (DOC.facts && DOC.facts[k] != null) ? DOC.facts[k] : m);
+  /* tokened strings render resolved but are not inline-editable — change DOC.facts (facts table on Home, edit mode) */
+  const E = (path, v) => /\{\{\w+\}\}/.test(String(v))
+    ? "<span>"+esc(F(v))+"</span>"
+    : "<span data-path='"+path+"'>"+esc(v)+"</span>";
+  const ISO = d => d.toISOString().slice(0,10);
+  const TODAY = new Date(); TODAY.setHours(0,0,0,0);
+
+  /* ---- edit state ---- */
+  let editing = false;
+  let filter = "ALL";
+  let EDITS = {};                          // path -> {from, to}
+  const LSKEY = "livedoc:"+DOC.meta.id+":"+DOC.meta.rev+":draft";
+  const NAMEKEY = "livedoc:editor";
+  const getPath = (obj, path) => path.split(".").reduce((o,k)=> (o==null?undefined:o[k]), obj);
+  function setPath(obj, path, val){
+    const parts = path.split("."); let o = obj;
+    for(let i=0;i<parts.length-1;i++) o = o[parts[i]];
+    o[parts[parts.length-1]] = val;
+  }
+  function note(path, from, to){
+    if(!(path in EDITS)) EDITS[path] = { from: from };
+    EDITS[path].to = to;
+    if(String(EDITS[path].from) === String(EDITS[path].to)) delete EDITS[path];
+    saveDraft(); updateSaveN();
+  }
+  function change(path, to){ const from = (path in EDITS) ? EDITS[path].from : getPath(DOC, path); setPath(DOC, path, to); note(path, from, to); }
+  function saveDraft(){ try{ if(Object.keys(EDITS).length) localStorage.setItem(LSKEY, JSON.stringify({t:Date.now(), doc:DOC, edits:EDITS})); else localStorage.removeItem(LSKEY); }catch(e){} }
+  function updateSaveN(){ const n = Object.keys(EDITS).length; $("save-n").textContent = n ? "· "+n : ""; $("save-btn").style.display = (editing || n) ? "inline-block" : "none"; }
+
+  /* ---- derived ---- */
+  const STATUSES = ["OPEN","IN PROGRESS","BLOCKED","DONE"];
+  const HEALTH = ["ON TRACK","AT RISK","OFF TRACK"];
+  const isDone = i => i.status==="DONE", isProg = i => i.status==="IN PROGRESS", isBlocked = i => i.status==="BLOCKED";
+  const daysLate = i => Math.floor((TODAY - new Date(i.due+"T00:00:00")) / 864e5);
+  const isLate = i => !isDone(i) && daysLate(i) > 0;
+  const cls = i => isDone(i)?"done":isBlocked(i)?"blocked":isLate(i)?"late":isProg(i)?"prog":"open";
+  const lab = i => isDone(i)?"DONE":isBlocked(i)?"BLOCKED":isLate(i)?"PAST TARGET":isProg(i)?"IN PROGRESS":"OPEN";
+  const owners = o => String(o).toUpperCase().split("+").map(s=>s.trim()).filter(Boolean);
+  const own = o => owners(o).map(s=>"<span class='own "+esc(s)+"'>"+esc(s)+"</span>").join(" ");
+  const days = (a,b) => Math.round((+new Date(b+"T00:00:00") - +new Date(a+"T00:00:00"))/864e5);
+
+  let tabs = [], tabEls = [];
+  function activate(id, push){
+    document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===id));
+    tabEls.forEach(t=>t.classList.toggle("active",t.dataset.panel===id));
+    if(push!==false) history.replaceState(null,"","#"+id);
+    if(push!==false) window.scrollTo({top:0});
+  }
+  const activeTab = () => { const p = document.querySelector(".panel.active"); return p ? p.id : "s-home"; };
+
+  /* ================= RENDER ================= */
+  function render(){
+    const items = DOC.checklist.items;
+    items.forEach(it => { if(!STATUSES.includes(it.status)) it.status = "OPEN"; if(it.phase==null) it.phase = 0; });
+    const doneItems = items.filter(isDone), lateItems = items.filter(isLate), blockedItems = items.filter(isBlocked), progItems = items.filter(isProg);
+    const openItems = items.filter(i=>!isDone(i)&&!isProg(i)&&!isBlocked(i));
+    const highRisks = DOC.status.risks.filter(r=>r.sev==="HIGH"&&r.state!=="CLOSED").length;
+    const ros = DOC.media.dashboard.readouts;
+    const cur = ros.find(r=>r.current) || ros[0];
+    const next = ros[ros.indexOf(cur)+1];
+
+    /* masthead */
+    const fmtDate = iso => { const dt = new Date(iso+"T12:00:00"); return isNaN(dt) ? iso : dt.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}); };
+    $("m-date").textContent = "LAST EDITED · "+fmtDate(DOC.meta.revDate);
+    $("m-status").style.display = DOC.meta.status ? "" : "none";
+    $("m-status").innerHTML = E("meta.status", DOC.meta.status||"");
+    $("m-title").innerHTML = E("meta.title", DOC.meta.title);
+    $("m-sub").innerHTML = E("meta.subtitle", DOC.meta.subtitle);
+    $("m-parties").innerHTML = DOC.meta.parties.map(p =>
+      p === "Insulet Omnipod" ? "<b>Insulet <span class='omni'>Omnipod</span></b>" : "<b>"+esc(p)+"</b>"
+    ).join('<span class="x">×</span>');
+    const h = HEALTH.includes(DOC.meta.health) ? DOC.meta.health : "ON TRACK";
+    $("m-health").className = "health "+(h==="ON TRACK"?"ok":h==="AT RISK"?"risk":"off");
+    $("m-health").innerHTML = esc(h)+"<span class='hint'>· click to change</span>";
+    $("f-conf").textContent = DOC.meta.confidentiality;
+    $("f-stamp").textContent = "last edited " + fmtDate(DOC.meta.revDate);
+    document.querySelectorAll(".stamp-dyn").forEach(e=>e.textContent="as of "+fmtDate(DOC.meta.revDate));
+
+    /* tab bar */
+    const keep = activeTab();
+    tabs = [
+      { id:"s-home", code:"§00", name:"Home" },
+      { id:"s-status", code:"§01", name:"Status", q:"Where go-live stands — the checklist by phase, and what could knock the early-Feb readout off course", stat:doneItems.length+" of "+items.length+" done"+(blockedItems.length? " · "+blockedItems.length+" blocked":"")+(lateItems.length? " · "+lateItems.length+" past target":"")+" · "+(highRisks? highRisks+" high risk"+(highRisks===1?"":"s") : "no risks flagged") },
+      { id:"s-design", code:"§02", name:"Design & Setup", q:"The hypothesis, who does what once audiences are live, and how the test is read", stat:"two groups · one variable · "+DOC.media.measure.options.length+" reads" },
+      { id:"s-perf", code:"§03", name:"Performance", q:"How the Vi ad set is performing against the bar — placeholder until the mid-Nov read", stat: next ? "next readout · "+next.label+" · "+next.date : "readouts complete" }
+    ];
+    $("tabbar").innerHTML = tabs.map(t =>
+      "<button class='tab' role='tab' data-panel='"+t.id+"'><span class='tc'>"+t.code+"</span>"+t.name+"</button>"
+    ).join("") + "<span class='kbd-hint'>← → to move between sections</span>";
+    tabEls = [...document.querySelectorAll(".tab")];
+    tabEls.forEach(t=>t.addEventListener("click",()=>activate(t.dataset.panel)));
+    activate(keep, false);
+
+    /* 00 home · overview */
+    $("h-what").innerHTML = E("home.what", DOC.home.what);
+    const who = DOC.partnership.who;
+    const S = DOC.summary;
+    $("h-summary").innerHTML =
+      "<div class='stats'>"+S.stats.map((st,i)=>"<div class='stat'><b>"+E("summary.stats."+i+".big", st.big)+"</b><span class='sl'>"+esc(st.label)+"</span><span class='ss'>"+E("summary.stats."+i+".sub", st.sub)+"</span></div>").join("")+"</div>"+
+      "<div class='sgroups'>"+
+        "<div class='sgroup'><div class='sgt'>Who's in it</div>"+who.map((w,i)=>
+          "<div class='who'><div class='wo'>"+(w.org==="Insulet Omnipod"?"Insulet <span class='omni'>Omnipod</span>":esc(w.org))+"</div><div class='wr'>"+E("partnership.who."+i+".role", w.role)+"</div><div class='wc'>"+E("partnership.who."+i+".contact", w.contact)+"</div></div>").join("")+"</div>"+
+        S.groups.map((g,gi)=>"<div class='sgroup'><div class='sgt'>"+esc(g.title)+"</div>"+g.rows.map((r,ri)=>
+          "<div class='srow'><span class='sk'>"+esc(r.k)+"</span><span class='sv'>"+E("summary.groups."+gi+".rows."+ri+".v", r.v)+"</span></div>").join("")+"</div>").join("")+
+      "</div>";
+    $("h-facts").innerHTML = "<div class='ft'>SHARED FACTS — change here, every {{token}} on the page follows</div><table>"+
+      Object.keys(DOC.facts).map(k => "<tr><td class='k'>{{"+esc(k)+"}}</td><td><span data-path='facts."+esc(k)+"' data-fact='1'>"+esc(DOC.facts[k])+"</span></td></tr>").join("")+"</table>";
+
+    /* launch calculator */
+    const L = DOC.launch;
+    const LP = DOC.checklist.launchPhases || (DOC.checklist.phases||[]).map((_,i)=>i);
+    const lItems = items.filter(i=>LP.includes(i.phase)), lDone = lItems.filter(isDone);
+    const total = lItems.length, pctDone = total ? Math.round(100*lDone.length/total) : 0;
+    const span = Math.max(1, days(L.start, L.target));
+    const dayN = days(L.start, ISO(TODAY)) + 1;
+    const toGo = days(ISO(TODAY), L.target);
+    const decM = (DOC.partnership.timeline.milestones||[]).find(m=>m.decision);
+    const toDec = decM ? days(ISO(TODAY), decM.d) : null;
+    const r = 76, C = 2*Math.PI*r;
+    $("h-calc").innerHTML =
+      "<div class='ring'><svg viewBox='0 0 170 170'><circle cx='85' cy='85' r='"+r+"' fill='none' stroke='rgba(16,29,26,.1)' stroke-width='11'/>"+
+      "<circle cx='85' cy='85' r='"+r+"' fill='none' stroke='#17423C' stroke-width='11' stroke-linecap='round' stroke-dasharray='"+(C*pctDone/100).toFixed(1)+" "+C.toFixed(1)+"'/></svg>"+
+      "<div class='rp'><b class='tnum'>"+pctDone+"%</b><small>GO-LIVE COMPLETE</small></div></div>"+
+      "<div class='calc-r'><div class='cl'>LAUNCH CALCULATOR</div><div class='cg'>"+E("launch.label", L.label)+"</div>"+
+      "<div class='cd tnum'>Day <b>"+Math.max(0,dayN)+"</b> of <b>"+span+"</b> · target <b>"+E("launch.targetLabel", L.targetLabel)+"</b> ("+esc(L.target)+") · "+
+        (toGo>=0 ? "<b>"+toGo+"</b> day"+(toGo===1?"":"s")+" to go" : "<span class='late'>"+(-toGo)+" day"+(toGo===-1?"":"s")+" past target</span>")+
+        "</div>"+
+      "<div class='tiles'><div class='tile'><b class='tnum'>"+lDone.length+"<small>/"+total+"</small></b><span>LAUNCH ITEMS DONE</span></div>"+
+      "<div class='tile'><b class='tnum'>"+lItems.filter(isProg).length+"</b><span>IN PROGRESS</span></div>"+
+      "<div class='tile"+(lItems.filter(isBlocked).length?" blocked":"")+"'><b class='tnum'>"+lItems.filter(isBlocked).length+"</b><span>BLOCKED</span></div>"+
+      "<div class='tile"+(lItems.filter(isLate).length?" late":"")+"'><b class='tnum'>"+lItems.filter(isLate).length+"</b><span>PAST TARGET</span></div></div>"+
+      (L.note ? "<div class='calc-note'>"+E("launch.note", L.note)+"</div>" : "")+"</div>";
+
+    /* priorities */
+    const P = DOC.priorities;
+    const pOpen = P.items.filter(p=>!p.done).length;
+    $("h-prio").innerHTML = "<div class='prio-head'><h3>"+E("priorities.label", P.label)+"</h3><span class='n'>"+pOpen+" open · "+(P.items.length-pOpen)+" done · updated at the check-in</span></div>"+
+      (P.items.length ? P.items.map((p,i) =>
+        "<div class='prio-it"+(p.done?" done":"")+"'><span class='box sm "+(p.done?"done":"")+"' data-cycle='prio' data-i='"+i+"'></span>"+
+        "<span class='t'>"+E("priorities.items."+i+".text", p.text)+"</span><span>"+(editing ? "<span class='own' data-path='priorities.items."+i+".who'>"+esc(p.who||"")+"</span>" : own(p.who||""))+"</span>"+
+        "<button class='rm' data-rm='"+i+"' title='remove'>×</button></div>").join("") : "<div class='prio-empty'>Nothing queued — add the two or three things both teams are pushing on before the next check-in.</div>")+
+      "<div class='prio-add'><input id='pa-text' placeholder='What are we pushing on this biweekly?'><input id='pa-who' placeholder='owner · INSULET + WH + VI'><button class='ebtn' id='pa-add'>ADD</button></div>";
+
+    /* section cards */
+    $("h-cards").innerHTML = tabs.filter(t=>t.id!=="s-home").map(t =>
+      "<button class='hcard' data-panel='"+t.id+"'><span class='hc-code'>"+t.code+"</span><span class='hc-name'>"+esc(t.name)+"</span><span class='hc-q'>"+esc(t.q)+"</span><span class='hc-stat'>"+esc(t.stat)+"</span><span class='hc-go'>open →</span></button>").join("");
+    document.querySelectorAll(".hcard").forEach(c=>c.addEventListener("click",()=>activate(c.dataset.panel)));
+
+    /* 01 status — checklist by phase */
+    const fchip = (id, label, n) => "<button class='fchip"+(filter===id?" active":"")+"' data-filter='"+id+"'>"+label+(n!=null?"<span class='n'>"+n+"</span>":"")+"</button>";
+    const allOwners = [...new Set(items.flatMap(i=>owners(i.owner)))];
+    const match = it => filter==="ALL" ? true : filter==="OPEN" ? !isDone(it) : filter==="DONE" ? isDone(it) : owners(it.owner).includes(filter);
+    const sum = "<div class='sumline'><span class='big tnum'>"+doneItems.length+" <small>of "+items.length+" done</small></span>"+
+      (blockedItems.length?"<span class='f red'>"+blockedItems.length+" blocked</span>":"")+
+      (lateItems.length?"<span class='f red'>"+lateItems.length+" past target</span>":"")+
+      "<span class='f'>"+(items.length-doneItems.length)+" open</span>"+
+      "<span class='cad'>"+esc(DOC.checklist.cadence)+"</span></div>";
+    const filters = "<div class='filters'><span class='fl'>SHOW</span>"+fchip("ALL","All",items.length)+
+      allOwners.map(o=>fchip(o, o+"'s court", items.filter(i=>!isDone(i)&&owners(i.owner).includes(o)).length+" open")).join("")+
+      fchip("OPEN","Open",items.length-doneItems.length)+fchip("DONE","Done",doneItems.length)+"</div>";
+    const head = "<div class='lg-head'><span></span><span>Item</span><span>Detail</span><span>Owner</span><span class='r'>Target</span></div>";
+    const row = (it,k) =>
+      "<div class='lg-it "+cls(it)+"'>"+
+        "<span class='box "+cls(it)+"' data-cycle='status' data-i='"+k+"' title='"+(editing?"click to cycle status":"")+"'></span>"+
+        "<div class='t'>"+E("checklist.items."+k+".what",it.what)+"</div>"+
+        "<ul class='dl'>"+(it.detail||[]).map((d,j)=>"<li>"+E("checklist.items."+k+".detail."+j,d)+"</li>").join("")+"</ul>"+
+        "<div class='ow'>"+(editing ? "<span class='own' data-path='checklist.items."+k+".owner'>"+esc(it.owner)+"</span>" : own(it.owner))+"</div>"+
+        "<div class='r'><span class='date "+(isLate(it)?"late":"")+"'>"+esc(it.target)+"</span><span class='stt "+cls(it)+"' data-cycle='status' data-i='"+k+"'>"+lab(it)+"</span></div>"+
+      "</div>";
+    let body = "";
+    (DOC.checklist.phases||["Checklist"]).forEach((ph, pi) => {
+      const inPhase = items.map((it,k)=>({it,k})).filter(x=>x.it.phase===pi);
+      const shown = inPhase.filter(x=>match(x.it));
+      if(!shown.length) return;
+      const d = inPhase.filter(x=>isDone(x.it)).length;
+      body += "<div class='lg-ph'><span>"+esc(ph)+"</span><span class='n'>"+d+"/"+inPhase.length+" done</span><span class='bar'><i style='width:"+(inPhase.length?100*d/inPhase.length:0)+"%'></i></span></div>";
+      body += shown.map(x=>row(x.it,x.k)).join("");
+    });
+    if(!body) body = "<div class='prio-empty' style='padding:16px 4px'>Nothing matches this filter.</div>";
+    $("st-check").innerHTML = sum+filters+"<div class='lg'>"+head+body+"</div>";
+    $("st-check-n").textContent = doneItems.length+" / "+items.length+" done"+(blockedItems.length? " · "+blockedItems.length+" blocked":"")+(lateItems.length? " · "+lateItems.length+" past target":"");
+
+    /* risks */
+    const riskRows = DOC.status.risks.map((it,i) => {
+      const sub = it.sub ? "<span class='sub'>"+E("status.risks."+i+".sub",it.sub)+"</span>" : "";
+      const chip = "<span class='state "+(it.state==="CLOSED"?"DONE":it.sev)+"'>"+(it.state==="CLOSED"?"CLOSED":it.sev)+"</span>";
+      return "<div class='trk-row'><span class='mono' style='color:var(--teal)'>"+esc(it.id)+"</span>"+
+        "<span>"+E("status.risks."+i+".item",it.item)+sub+"</span>"+
+        "<span class='own2'>"+E("status.risks."+i+".owner",it.owner)+"</span>"+
+        "<span class='due'>"+E("status.risks."+i+".due",it.due)+"</span>"+
+        "<span class='st'>"+chip+"</span></div>";
+    }).join("");
+    $("st-risks").innerHTML = (riskRows || (blockedItems.length||lateItems.length) ? riskRows : "<div class='prio-empty' style='padding:16px 4px'>No risks flagged as of this rev. Anything blocked or past target in the checklist lands here on its own.</div>") + (blockedItems.length ?
+      "<h3 class='block-title'>Auto-flagged — blocked checklist items</h3>"+
+      blockedItems.map(it => "<div class='trk-row'><span class='mono' style='color:var(--red)'>BLOCKED</span><span>"+esc(F(it.what))+"</span><span class='own2'>"+own(it.owner)+"</span><span class='due'>now</span><span class='st'><span class='state HIGH'>HIGH</span></span></div>").join("") : "")
+    + (lateItems.length ?
+      "<h3 class='block-title'>Auto-flagged — checklist items past target</h3>"+
+      "<div class='oi-note'>Generated from the go-live checklist. A row clears itself the moment the item closes or its date moves.</div>"+
+      lateItems.map(it => {
+        const d = daysLate(it);
+        return "<div class='trk-row'><span class='mono' style='color:var(--red)'>LATE</span>"+
+          "<span>"+esc(F(it.what))+"<span class='sub'>Target was "+esc(it.target)+" — "+d+" day"+(d>1?"s":"")+" past.</span></span>"+
+          "<span class='own2'>"+own(it.owner)+"</span><span class='due'>now</span>"+
+          "<span class='st'><span class='state "+(d>7?"HIGH":"MED")+"'>"+(d>7?"HIGH":"MED")+"</span></span></div>";
+      }).join("") : "");
+    $("st-risk-n").textContent = (DOC.status.risks.filter(r=>r.state!=="CLOSED").length + lateItems.length + blockedItems.length)+" open · "+highRisks+" high"+((lateItems.length+blockedItems.length)? " · "+(lateItems.length+blockedItems.length)+" auto":"");
+
+    /* 02 design & setup · test design */
+    $("m-hypo").innerHTML = E("media.hypothesis", DOC.media.hypothesis);
+    $("m-arms").innerHTML = DOC.media.arms.map((a,i) =>
+      "<div class='card arm'><div class='arm-name'>"+E("media.arms."+i+".arm",a.arm)+"</div><p>"+E("media.arms."+i+".desc",a.desc)+"</p><div class='arm-meta'>Allocation · "+E("media.arms."+i+".allocation",a.allocation)+"<br>Budget · "+E("media.arms."+i+".budget",a.budget)+"</div></div>").join("");
+    $("m-arms-foot").innerHTML = DOC.media.armsFootnote ? E("media.armsFootnote", DOC.media.armsFootnote) : ""; $("m-arms-foot").style.display = DOC.media.armsFootnote ? "" : "none";
+
+    /* operating model */
+    const O = DOC.media.ops;
+    $("o-intro").innerHTML = E("media.ops.intro", O.intro);
+    $("o-raci-h").innerHTML = "<tr><th>Area</th>"+O.raci.cols.map(c=>"<th>"+esc(c)+"</th>").join("")+"</tr>";
+    $("o-raci").innerHTML = O.raci.rows.map((r,i) => "<tr><td>"+E("media.ops.raci.rows."+i+".area", r.area)+"</td>"+
+      r.cells.map((c,j)=>"<td class='"+(/^Owns/i.test(c)?"owns":"")+"'>"+E("media.ops.raci.rows."+i+".cells."+j, c)+"</td>").join("")+"</tr>").join("");
+    $("o-conv").innerHTML = O.conventions.map((c,i) => "<tr><td class='k'>"+esc(c.k)+"</td><td>"+E("media.ops.conventions."+i+".v", c.v)+(c.confirm?" <span class='tag confirm'>TO CONFIRM</span>":"")+"</td></tr>").join("");
+    $("o-track").innerHTML = (O.tracking||[]).map((c,i) => "<tr><td class='k'>"+esc(c.k)+"</td><td>"+E("media.ops.tracking."+i+".v", c.v)+"</td></tr>").join("");
+    $("o-mx").innerHTML = O.matrix.map((m,i) => "<div class='card'><h4>"+E("media.ops.matrix."+i+".arm", m.arm)+"</h4>"+
+      "<div class='lb inc'>INCLUDE</div><ul>"+m.include.map((x,j)=>"<li>"+E("media.ops.matrix."+i+".include."+j, x)+"</li>").join("")+"</ul>"+
+      "<div class='lb exc'>EXCLUDE</div><ul>"+m.exclude.map((x,j)=>"<li>"+E("media.ops.matrix."+i+".exclude."+j, x)+"</li>").join("")+"</ul></div>").join("");
+    $("o-rules").innerHTML = O.rules.map((r,i)=>"<li>"+E("media.ops.rules."+i, r)+"</li>").join("");
+    $("o-loop").innerHTML = O.loop.map((s,i)=>"<div class='st'><span class='n'>"+esc(s.n)+"</span><div class='s'>"+E("media.ops.loop."+i+".step", s.step)+"</div><div class='o'>owner · "+E("media.ops.loop."+i+".owner", s.owner)+"</div></div>").join("");
+    $("o-loop-note").innerHTML = E("media.ops.loopNote", O.loopNote);
+
+    /* measurement */
+    const M = DOC.media.measure;
+    $("ms-lede").innerHTML = E("media.measure.lede", M.lede);
+    $("ms-opts").innerHTML = M.options.map((o,i) => "<div class='opt"+(o.decided?" decided":"")+"'><div class='oh'><h4>"+E("media.measure.options."+i+".name", o.name)+"</h4><span class='tag"+(o.decided?" decided":"")+"'>"+esc(o.tag)+"</span></div>"+
+      "<div class='how'>"+E("media.measure.options."+i+".how", o.how)+"</div><div class='reads'>READS · "+E("media.measure.options."+i+".reads", o.reads)+"</div>"+
+      "<div class='pm'><div class='plus'><div class='lb'>FOR</div><ul>"+o.plus.map((x,j)=>"<li>"+E("media.measure.options."+i+".plus."+j, x)+"</li>").join("")+"</ul></div>"+
+      "<div class='minus'><div class='lb'>AGAINST</div><ul>"+o.minus.map((x,j)=>"<li>"+E("media.measure.options."+i+".minus."+j, x)+"</li>").join("")+"</ul></div></div></div>").join("");
+
+    /* timeline (home) */
+    const T = DOC.partnership.timeline;
+    const t0 = +new Date(T.start), t1 = +new Date(T.end);
+    const pct = d => (100*(+new Date(d)-t0)/(t1-t0)).toFixed(2)+"%";
+    const wid = (a,b) => (100*(+new Date(b)-+new Date(a))/(t1-t0)).toFixed(2)+"%";
+    const months = T.months || ["JUL","AUG","SEP","OCT","NOV","DEC","JAN"];
+    let tl = "<div class='tl-wrap'>";
+    const tNow = +TODAY;
+    if(tNow >= t0 && tNow <= t1) tl += "<div class='tl-today' style='left:"+(100*(tNow-t0)/(t1-t0)).toFixed(2)+"%'><b>TODAY</b></div>";
+    tl += "<div class='tl-months' style='grid-template-columns:repeat("+months.length+",1fr)'>"+months.map(m=>"<span>"+m+"</span>").join("")+"</div>";
+    tl += "<div class='tl-miles'>"+T.milestones.map(m =>
+      "<div class='tl-mile"+(m.decision?" decision":"")+"' style='left:"+pct(m.d)+"'><b>"+esc(m.label)+"</b><div class='tri'></div></div>").join("")+"</div>";
+    tl += "<div class='tl-axis'></div>";
+    for(const lane of T.lanes){
+      tl += "<div class='tl-group'><span class='sw' style='background:"+(lane.kind==="a"?"rgba(23,66,60,.16)":"var(--teal)")+"'></span>"+esc(lane.group.toUpperCase())+"</div>";
+      tl += lane.bars.map(b => {
+        const c = b.lag ? "lag" : (b.dashed ? "dashed" : lane.kind);
+        const wNum = 100*(+new Date(b.to)-+new Date(b.from))/(t1-t0);
+        const spanCls = (wNum < 20 && !b.lag && !b.dashed) ? " class='out'" : "";
+        return "<div class='tl-row'><div class='tl-bar "+c+"' style='left:"+pct(b.from)+";width:"+wid(b.from,b.to)+"'><span"+spanCls+">"+esc(b.label)+"</span></div></div>";
+      }).join("");
+      if(lane.markers){
+        const last = lane.markers.dates[lane.markers.dates.length-1];
+        tl += "<div class='tl-markers'>"+lane.markers.dates.map(d=>"<div class='dia' style='left:"+pct(d)+"'></div>").join("")+
+          "<span class='mlabel' style='left:"+pct(last)+";margin-left:14px'>"+esc(lane.markers.label)+"</span></div>";
+      }
+    }
+    let cd = "", tt = +new Date(T.cadence.from);
+    while(tt <= +new Date(T.cadence.to)){ cd += "<div class='cd' style='left:"+(100*(tt-t0)/(t1-t0)).toFixed(2)+"%'></div>"; tt += T.cadence.everyDays*864e5; }
+    tl += "<div class='tl-cadence'>"+cd+"<span class='clabel'>"+esc(T.cadence.label)+"</span></div>";
+    tl += "<div class='tl-checks'>"+T.checkpoints.map((c,i)=>
+      "<div class='tl-check"+(i%2?" alt":"")+"' style='left:"+pct(c.d)+"'><div class='dia'></div><b>"+esc(c.label)+"</b></div>").join("")+"</div>";
+    tl += "<div class='tl-legend'>"+
+      "<span><span class='sw' style='background:rgba(23,66,60,.16)'></span>Path A · Audience</span>"+
+      "<span><span class='sw' style='background:var(--teal)'></span>Path B · Media &amp; measurement</span>"+
+      "<span><span class='sw' style='background:transparent;border:1.5px dashed var(--teal)'></span>potential extension</span>"+
+      "<span>● monthly audience refresh</span><span>▲ milestone</span><span>◆ checkpoint</span><span style='color:var(--red)'>┊ today</span></div></div>";
+    $("p-tl").innerHTML = tl;
+
+    /* 03 performance (placeholder) */
+    $("m-ruler").innerHTML = ros.map(r =>
+      "<div class='rtick "+(r.state==="filled"?"filled":"")+(r.current?" current":"")+"'><div class='c'></div><div class='rl'>"+r.id+" · "+esc(r.label)+"</div><div class='rd'>"+esc(r.date)+"</div></div>").join("");
+    $("m-kpis").innerHTML = DOC.media.dashboard.kpis.map((k,i) =>
+      "<tr><td class='km'>"+E("media.dashboard.kpis."+i+".metric",k.metric)+"</td>"+
+      "<td class='mono'>"+E("media.dashboard.kpis."+i+".target",k.target)+"</td>"+
+      "<td class='mono "+(k.actual?"":"pend")+"'>"+(k.actual ? E("media.dashboard.kpis."+i+".actual",k.actual) : (editing ? E("media.dashboard.kpis."+i+".actual","") : "—"))+"</td></tr>").join("");
+    $("m-kpi-note").innerHTML = E("media.dashboard.note", DOC.media.dashboard.note);
+
+    /* apply edit mode to freshly rendered nodes */
+    document.querySelectorAll("[data-path]").forEach(el=>{ el.contentEditable = editing; });
+    updateSaveN();
+  }
+
+  try{
+    render();
+
+    /* keyboard: ← → between sections */
+    document.addEventListener("keydown",e=>{
+      if(e.key!=="ArrowRight"&&e.key!=="ArrowLeft")return;
+      if(document.body.classList.contains("editing"))return;
+      if($("modal").classList.contains("on"))return;
+      const i = tabs.findIndex(t=>document.getElementById(t.id).classList.contains("active"));
+      const j = e.key==="ArrowRight" ? Math.min(i+1,tabs.length-1) : Math.max(i-1,0);
+      if(j!==i) activate(tabs[j].id);
+    });
+
+    /* generic sub-tabs: each .subtabs nav controls the .subpanel siblings in its section */
+    document.querySelectorAll(".subtabs").forEach(nav=>{
+      const section = nav.closest("section");
+      const btns = [...nav.querySelectorAll(".subtab")];
+      const panels = [...section.querySelectorAll(".subpanel")];
+      function go(id){
+        panels.forEach(p=>p.classList.toggle("active",p.id===id));
+        btns.forEach(b=>b.classList.toggle("active",b.dataset.sub===id));
+      }
+      btns.forEach(b=>b.addEventListener("click",()=>go(b.dataset.sub)));
+      go(btns[0].dataset.sub);
+    });
+
+    /* initial section from hash */
+    const initial = location.hash.replace("#","");
+    activate(tabs.some(t=>t.id===initial) ? initial : "s-home", false);
+
+    /* ---- delegated clicks: filters, status cycling, health, priorities ---- */
+    document.addEventListener("click", e => {
+      const fc = e.target.closest(".fchip");
+      if(fc){ filter = fc.dataset.filter; render(); return; }
+      const cy = e.target.closest("[data-cycle]");
+      if(cy){
+        const kind = cy.dataset.cycle;
+        if(kind==="status"){
+          const i = +cy.dataset.i, it = DOC.checklist.items[i];
+          let nx;
+          if(cy.classList.contains("box")){
+            /* box = check off. Done → back to the status it had before, else OPEN */
+            if(it.status==="DONE"){ nx = it._was || "OPEN"; } else { it._was = it.status; nx = "DONE"; }
+          } else {
+            nx = STATUSES[(STATUSES.indexOf(it.status)+1) % STATUSES.length];
+          }
+          change("checklist.items."+i+".status", nx); render(); return;
+        }
+        if(kind==="health"){
+          const nx = HEALTH[(HEALTH.indexOf(DOC.meta.health)+1) % HEALTH.length];
+          change("meta.health", nx); render(); return;
+        }
+        if(kind==="prio"){
+          const i = +cy.dataset.i;
+          change("priorities.items."+i+".done", !DOC.priorities.items[i].done); render(); return;
+        }
+      }
+      const rm = e.target.closest("[data-rm]");
+      if(rm && editing){
+        const i = +rm.dataset.rm, p = DOC.priorities.items[i];
+        DOC.priorities.items.splice(i,1);
+        note("priorities.items[−]", p.text, ""); render(); return;
+      }
+      if(e.target.id==="pa-add"){
+        const t = $("pa-text").value.trim(), w = $("pa-who").value.trim().toUpperCase();
+        if(!t) return;
+        DOC.priorities.items.push({text:t, who:w, done:false});
+        note("priorities.items[+]", "", t+(w?" ("+w+")":"")); render(); return;
+      }
+    });
+    document.addEventListener("keydown", e => {
+      if(e.key==="Enter" && (e.target.id==="pa-text"||e.target.id==="pa-who")){ e.preventDefault(); $("pa-add").click(); }
+    });
+
+    /* ---- verbiage edits ---- */
+    document.addEventListener("input", e=>{
+      if(!editing) return;
+      const el = e.target.closest ? e.target.closest("[data-path]") : null;
+      if(el) change(el.dataset.path, el.textContent);
+    });
+    /* facts: re-render on blur so every {{token}} follows */
+    document.addEventListener("focusout", e=>{
+      if(!editing) return;
+      const el = e.target.closest ? e.target.closest("[data-fact]") : null;
+      if(el) render();
+    });
+    /* keep Enter from inserting divs into single-line fields */
+    document.addEventListener("keydown", e=>{
+      if(editing && e.key==="Enter" && e.target.closest && e.target.closest("[data-path]")){ e.preventDefault(); e.target.blur(); }
+    });
+
+    /* ---- edit toggle ---- */
+    function setEditing(on){
+      editing = on;
+      document.body.classList.toggle("editing", editing);
+      $("edit-btn").classList.toggle("on", editing);
+      $("edit-btn").textContent = editing ? "✓ DONE EDITING" : "✎ EDIT";
+      $("save-btn").style.display = editing || Object.keys(EDITS).length ? "inline-block" : "none";
+      document.querySelectorAll("[data-path]").forEach(el=>{ el.contentEditable = editing; });
+      render();
+    }
+    $("edit-btn").addEventListener("click", ()=> setEditing(!editing));
+
+    /* ---- draft restore ---- */
+    try{
+      const raw = localStorage.getItem(LSKEY);
+      if(raw){
+        const d = JSON.parse(raw);
+        const n = Object.keys(d.edits||{}).length;
+        if(n){
+          const b = $("draft");
+          b.style.display = "flex";
+          b.innerHTML = "✎ "+n+" unsaved edit"+(n>1?"s":"")+" from "+new Date(d.t).toLocaleString()+" are waiting in this browser. <button class='ebtn' id='dr-restore'>RESTORE</button><button class='ebtn' id='dr-discard'>DISCARD</button>";
+          $("dr-restore").addEventListener("click", ()=>{
+            Object.keys(DOC).forEach(k=>delete DOC[k]); Object.assign(DOC, d.doc); EDITS = d.edits;
+            b.style.display = "none"; setEditing(true);
+          });
+          $("dr-discard").addEventListener("click", ()=>{ localStorage.removeItem(LSKEY); b.style.display = "none"; });
+        }
+      }
+    }catch(e){}
+
+    /* ---- SAVE REV ---- */
+    const bump = r => { const m = /^v(\d+)\.(\d+)$/.exec(r||""); return m ? "v"+m[1]+"."+(+m[2]+1) : (r||"v1")+".1"; };
+    const trunc = s => { s = String(s==null?"":s); return s.length>140 ? s.slice(0,137)+"…" : s; };
+    const feList = () => Object.keys(EDITS).map(p=>({path:p, from:trunc(EDITS[p].from), to:trunc(EDITS[p].to)}));
+    const autoSummary = () => {
+      const fe = feList(); if(!fe.length) return "";
+      const st = fe.filter(f=>/checklist\.items\.\d+\.status$/.test(f.path)).map(f=>{ const i=+f.path.split(".")[2]; return F(DOC.checklist.items[i].what)+": "+f.from+" → "+f.to; });
+      const pr = fe.filter(f=>f.path.startsWith("priorities")).length;
+      const hl = fe.find(f=>f.path==="meta.health");
+      const other = fe.length - st.length - pr - (hl?1:0);
+      const lines = [];
+      if(st.length) lines.push("Checklist — "+st.join("; "));
+      if(hl) lines.push("Health — "+hl.from+" → "+hl.to);
+      if(pr) lines.push("Priorities updated ("+pr+" change"+(pr>1?"s":"")+")");
+      if(other) lines.push(other+" wording / facts change"+(other>1?"s":""));
+      return lines.join("\n");
+    };
+    $("save-btn").addEventListener("click", ()=>{
+      $("mv-who").value = (localStorage.getItem(NAMEKEY)||"");
+      $("mv-rev").value = bump(DOC.meta.rev);
+      $("mv-what").value = autoSummary();
+      const fe = feList();
+      $("mv-fe").innerHTML = fe.length ? fe.map(f=>"<div><span class='p'>"+esc(f.path)+"</span> · <span class='fr'>"+esc(f.from)+"</span> → <span class='to'>"+esc(f.to)+"</span></div>").join("") : "<span style='color:var(--grey)'>No field changes recorded — you can still save a rev with a note.</span>";
+      $("modal").classList.add("on"); $("mv-who").focus();
+    });
+    $("mv-cancel").addEventListener("click", ()=> $("modal").classList.remove("on"));
+    $("modal").addEventListener("click", e=>{ if(e.target.id==="modal") $("modal").classList.remove("on"); });
+    $("mv-ok").addEventListener("click", ()=>{
+      const who = $("mv-who").value.trim(); if(!who){ $("mv-who").focus(); return; }
+      const rev = $("mv-rev").value.trim() || bump(DOC.meta.rev);
+      const what = $("mv-what").value.split("\n").map(s=>s.trim()).filter(Boolean);
+      try{ localStorage.setItem(NAMEKEY, who); }catch(e){}
+      const today = ISO(new Date());
+      DOC.meta.prevRev = DOC.meta.rev; DOC.meta.rev = rev; DOC.meta.revDate = today;
+      DOC.meta.delta = what.length ? what : ["Statuses and wording refreshed — see field changes."];
+      DOC.changelog.push({ date: today, who: who, what: rev+" — "+(what.length ? what.join(" · ") : "statuses and wording refreshed"), edits: feList() });
+      /* write the file */
+      const m0 = "/*__DOC_START__*/", m1 = "/*__DOC_END__*/";
+      const i0 = SRC.indexOf(m0) + m0.length, i1 = SRC.indexOf(m1);
+      const json = JSON.stringify(DOC, (k,v)=> (typeof k==="string" && k.startsWith("_")) ? undefined : v, 2).replace(/<\//g, "<\\/");
+      const out = SRC.slice(0, i0) + json + SRC.slice(i1);
+      const blob = new Blob([out], {type: "text/html"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = DOC.meta.id + "_" + rev + ".html";
+      a.click();
+      try{ localStorage.removeItem(LSKEY); }catch(e){}
+      EDITS = {};
+      $("modal").classList.remove("on");
+      setEditing(false);
+    });
+
+    /* staleness self-check — the doc knows its own cadence */
+    const age = Math.floor((Date.now() - new Date(DOC.meta.revDate+"T12:00:00")) / 864e5);
+    if(age > 16){
+      $("stale").style.display = "block";
+      $("stale").textContent = "⚠ This rev is "+age+" days old. The doc updates at each check-in — a newer version may exist. Confirm before relying on statuses.";
+    }
+
+  }catch(err){
+    /* one bad edit should never mean a blank page */
+    document.body.insertAdjacentHTML("afterbegin",
+      "<div class='err-banner'>DOC DATA ERROR — "+String(err && err.message).replace(/</g,"&lt;")+
+      ". A recent edit likely broke the DOC block (between the DOC_START / DOC_END markers). Fix the value or restore the previous rev — nothing is lost.</div>");
+    console.error(err);
+  }
+})();
+</script>
+</body>
+</html>
