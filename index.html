@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>INS-POC-2026 · Partnership Living Doc · Insulet Omnipod × Wheelhouse × Vi</title>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&amp;family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <script>
 /* ============================================================
    DOC — the single source of truth for this document.
@@ -49,8 +48,8 @@
 const DOC = /*__DOC_START__*/{
   "meta": {
     "id": "INS-POC-2026-001",
-    "rev": "v1.9",
-    "prevRev": "v1.8",
+    "rev": "v1.10",
+    "prevRev": "v1.9",
     "revDate": "2026-10-01",
     "status": "",
     "health": "ON TRACK",
@@ -64,14 +63,14 @@ const DOC = /*__DOC_START__*/{
     "nextTouchpoint": "weekly 20-min check-in through go-live",
     "confidentiality": "Confidential — prepared by Vi for the Insulet × Wheelhouse × Vi working team. Not for distribution beyond the partnership.",
     "delta": [
-      "Reporting-requirements wording updated (adds Salesforce to the feed ask).",
-      "Measurement and Tracking & campaign setup merged into one checklist phase: Measurement & tracking."
+      "Priorities updated (2 changes)",
+      "3 wording / facts changes"
     ]
   },
   "facts": {
     "viMedia": "$300K",
     "controlMedia": "$4M",
-    "audience": "TBD",
+    "audience": "~3M",
     "mediaLive": "Oct 14"
   },
   "home": {
@@ -175,8 +174,8 @@ const DOC = /*__DOC_START__*/{
         "done": false
       },
       {
-        "text": "Move the five IN REVIEW test parameters and pixel & tracking to LOCKED",
-        "who": "INSULET + WH + VI",
+        "text": "Confirm reporting access feasibility and data feeds",
+        "who": "INSULET + WH",
         "done": false
       }
     ]
@@ -370,12 +369,12 @@ const DOC = /*__DOC_START__*/{
       {
         "org": "Insulet Omnipod",
         "role": "Brand — sets the POC objectives, owns paid media with Wheelhouse, owns the (e)NCS model and the Salesforce data",
-        "contact": "Lucas Escobar (US consumer marketing lead) · Ariel Rapoport (day-to-day · paid media) · Mark Frechette (Insights & Analytics · (e)NCS read)"
+        "contact": "Lucas Escobar (US consumer marketing lead) · Ariel Rapoport (day-to-day) · Marc Frechette (Insights & Analytics)"
       },
       {
         "org": "Wheelhouse",
         "role": "Agency of record — runs Meta and TikTok in-platform in both groups; loads the Vi audience, owns UTMs, pixel events and the reporting feed",
-        "contact": "Aimee Taublieb (Account Director) · Laura Crooks (audience activation · reporting) · Emily Herrington (Meta + TikTok) · Cass (campaign setup)"
+        "contact": "Aimee Taublieb (Account Director) · Laura Crooks (Digital Advertising) · Emily Herrington (Meta + TikTok) · Cass (campaign setup)"
       },
       {
         "org": "Vi",
@@ -1061,6 +1060,38 @@ const DOC = /*__DOC_START__*/{
       "who": "Vi · David Sanders",
       "what": "v1.9 — reporting-requirements wording (adds SF); Measurement and Tracking & campaign setup merged into one phase",
       "edits": []
+    },
+    {
+      "date": "2026-10-01",
+      "who": "Ariel",
+      "what": "v1.10 — Priorities updated (2 changes) · 3 wording / facts changes",
+      "edits": [
+        {
+          "path": "partnership.who.0.contact",
+          "from": "Lucas Escobar (US consumer marketing lead) · Ariel Rapoport (day-to-day · paid media) · Mark Frechette (Insights & Analytics · (e)NCS read)",
+          "to": "Lucas Escobar (US consumer marketing lead) · Ariel Rapoport (day-to-day) · Marc Frechette (Insights & Analytics)"
+        },
+        {
+          "path": "partnership.who.1.contact",
+          "from": "Aimee Taublieb (Account Director) · Laura Crooks (audience activation · reporting) · Emily Herrington (Meta + TikTok) · Cass (campaign se…",
+          "to": "Aimee Taublieb (Account Director) · Laura Crooks (Digital Advertising) · Emily Herrington (Meta + TikTok) · Cass (campaign setup)"
+        },
+        {
+          "path": "priorities.items.3.text",
+          "from": "Move the five IN REVIEW test parameters and pixel & tracking to LOCKED",
+          "to": "Confirm reporting access feasibility and data feeds"
+        },
+        {
+          "path": "priorities.items.3.who",
+          "from": "INSULET + WH + VI",
+          "to": "INSULET + WH"
+        },
+        {
+          "path": "facts.audience",
+          "from": "TBD",
+          "to": "~3M"
+        }
+      ]
     }
   ]
 }/*__DOC_END__*/;
@@ -2095,6 +2126,4 @@ const DOC = /*__DOC_START__*/{
     console.error(err);
   }
 })();
-</script>
-</body>
-</html>
+</script></body></html>
